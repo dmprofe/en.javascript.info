@@ -2,6 +2,21 @@
 
 This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
 
+Original repository has been forked here by a teacher to include inline notes to its students and share with them.
+
+Notes are marked with [Obsidian
+callouts](https://help.obsidian.md/Editing+and+formatting/Callouts)
+
+They use a customized callout type "t" (for Teacher):
+
+```md
+> [!t]- This is a note.
+```
+
+Some Obsidian configuration is also provided.
+
+Also a global index.md file has been created to make easier the navigation in vscode preview or in Obsidian.
+
 ## Translations
 
 We'd like to make the tutorial available in many languages. Please help us to translate.
