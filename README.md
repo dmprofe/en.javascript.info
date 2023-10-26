@@ -10,10 +10,10 @@ callouts](https://help.obsidian.md/Editing+and+formatting/Callouts)
 They use a customized callout type "t" (for Teacher):
 
 ```md
-> [!t]- This is a note.
+> [!t]- t: This is a note.
 ```
 
-Some Obsidian configuration is also provided.
+Some Obsidian configuration is also provided that renders that and also a possible `[!x]-` custom note for extra comments from a student.
 
 Also a global index.md file has been created to make easier the navigation in vscode preview or in Obsidian.
 
