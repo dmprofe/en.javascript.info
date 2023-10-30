@@ -71,6 +71,21 @@ The comparison algorithm given above is roughly equivalent to the one used in di
 For instance, case matters. A capital letter `"A"` is not equal to the lowercase `"a"`. Which one is greater? The lowercase `"a"`. Why? Because the lowercase character has a greater index in the internal encoding table JavaScript uses (Unicode). We'll get back to specific details and consequences of this in the chapter <info:string>.
 ```
 
+> [!t]- t: Native string comparison if non ASCII standard will puzzle users
+>
+> - E.g. in Spanish, accented vowels ("á", "ü", ...) and "ñ" (uppercase or
+>   not) go after any ASCII standard letter or symbol (uppercase or not). But
+>   normally a user would expect that "á" is together with "a" and before "b".
+> - We should use a library for this correctly.
+> - In spite of this, native string comparison is very usual for programmers:
+>   - They ignore the internationalization/localization issues (i18n and L10n).
+>   - So in any alien software/code we use, we should check if this is covered
+>     or not.
+>   - The same happens with "accent sensitive" searchs or not. User will surely
+>      prefer generally "accent insensitive", but this does not happen if the
+>      programmer has done special things on this. Also a library here may
+>      be a good idea.
+
 ## Comparison of different types
 
 When comparing values of different types, JavaScript converts the values to numbers.
@@ -206,6 +221,21 @@ Why did we go over these examples? Should we remember these peculiarities all th
 
 - Treat any comparison with `undefined/null` except the strict equality `===` with exceptional care.
 - Don't use comparisons `>= > < <=` with a variable which may be `null/undefined`, unless you're really sure of what you're doing. If a variable can have these values, check for them separately.
+
+> [!t]- t: Use **strict** (un)equality as much as possible
+> Until we grow up (and maybe forever):
+>
+> - In our code:
+>   - We use `===`/`!==` (vs `==`/`!=`).
+>   - The only cohertion we afford here (and knowing well what we are doing):
+>     - Implicit, this one:
+>
+>       `if (/* Something truthy or falsy */)`
+>
+>       (or in while, ternary, ...)
+>     - Explicit.
+> - In alien code not following this:
+>   - **Don't change it lightly!**
 
 ## Summary
 
