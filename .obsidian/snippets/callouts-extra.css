@@ -1,0 +1,15 @@
+/* Teacher notes: */
+.callout[data-callout="t"] {
+  --callout-color: 117, 143, 127;
+  --callout-icon: lucide-graduation-cap;
+}
+/* Extra personal notes:
+   - If collaborating, mark the note title with your initials+":".
+   - If transcribing teacher's speak, mark title with "t:"
+     (preceded by your initials+":", if collaborating).
+ */
+.callout[data-callout="x"] {
+  --callout-color: 150, 100, 150;
+  --callout-icon: lucide-feather;
+}
+
