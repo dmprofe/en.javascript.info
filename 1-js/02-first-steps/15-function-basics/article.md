@@ -135,6 +135,12 @@ Global variables are visible from any function (unless shadowed by locals).
 It's a good practice to minimize the use of global variables. Modern code has few or no globals. Most variables reside in their functions. Sometimes though, they can be useful to store project-level data.
 ```
 
+> [!t]- t: Nested functions scopes
+>
+> - A function can be declared inside another function, and so on.
+> - So the "outer" variables may not be global, but local (or parameter) of
+>   an outer function.
+
 ## Parameters
 
 We can pass arbitrary data to functions using parameters.
@@ -183,6 +189,9 @@ We declare functions listing their parameters, then call them passing arguments.
 
 In the example above, one might say: "the function `showMessage` is declared with two parameters, then called with two arguments: `from` and `"Hello"`".
 
+> [!t]- t: Local variable of a function shadows a parameter with same name.
+>
+> - And obviously, a parameter shadows an outer variable.
 
 ## Default values
 
@@ -213,6 +222,12 @@ The default value also jumps in if the parameter exists, but strictly equals `un
 ```js
 showMessage("Ann", undefined); // Ann: no text given
 ```
+
+> [!t]- t: There may be several optional parameters, and must be at the end
+>
+> - The user **cannot** omit one "in the middle" (nothing before a comma).
+> - If he omits one, he has to omit the rest. So put them in the
+>   order of less unlikely omission.
 
 Here `"no text given"` is a string, but it can be a more complex expression, which is only evaluated and assigned if the parameter is missing. So, this is also possible:
 
@@ -262,6 +277,7 @@ function showMessage(from, text) {
 ```
 ````
 
+> [!t]- t: The previous note is somewhat reduntant with the next section
 
 ### Alternative default parameters
 
@@ -295,7 +311,19 @@ function showMessage(text) {
 }
 ```
 
+> [!t]- t: Remember that this checks for falsy, not for undefined.
+
 Modern JavaScript engines support the [nullish coalescing operator](info:nullish-coalescing-operator) `??`, it's better when most falsy values, such as `0`, should be considered "normal":
+
+> [!t]- t: And sometimes "" (another falsy) is also "normal".
+>
+> - Nullish adds "null" to undefined, so covers this in comparison to default
+>   parameter.
+> - One can use the most appropiate in each case.
+> - Not always you want to asign something to the omited parameter: you
+>   may just have a different behaviour when omited.
+> - When not using the "default parameter" syntax, you should document
+>   which parameters are considered optional.
 
 ```js run
 function showCount(count) {
@@ -348,6 +376,13 @@ if ( checkAge(age) ) {
   alert( 'Access denied' );
 }
 ```
+
+> [!t]- t: Some incorrectly state that "return in the middle considered harmful"
+>
+> See my comments on this at the section on "break/continue" at the loops
+> article. Extrapolate the code example show there (body of a loop) to the
+> body of a function: use return in the middle (or even better the start) if
+> it makes clearer, but clean your stuff when prematurely leaving.
 
 It is possible to use `return` without a value. That causes the function to exit immediately.
 

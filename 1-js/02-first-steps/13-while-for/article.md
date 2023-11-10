@@ -282,6 +282,57 @@ From a technical point of view, this is identical to the example above. Surely, 
 But as a side effect, this created one more level of nesting (the `alert` call inside the curly braces). If the code inside of `if` is longer than a few lines, that may decrease the overall readability.
 ````
 
+> [!t]- t: Is break/continue bad practice?
+>
+> - Some strict persons claim that is bad programming to use "break" or
+>   "continue", since it breaks the "pure flow". It reminds them of a
+>   "sort-of-goto", and there is a long tradition (cliché) saying that
+>   [the goto statement is **considered harmful**](https://en.wikipedia.org/wiki/Considered_harmful).
+>   (that is extended to "X considered harmful").
+> - It is true that one can organize the loop body to avoid breaks/continues.
+>   But this may lead to artificially more complex/difficult to mantain code.
+> - Example:
+>
+>   ```js
+>   while (blah) { /* Or for(blah) */
+>     if (!quickVerificationForBreak()) break;
+>     if (!quickVerificationForContinue1()) continue;
+>     if (!quickVerificationForContinue2()) continue;
+>     if (!quickVerificationForContinue3()) continue;
+>     doStuff();
+>   }
+>   ```
+>
+> - Is possibly clearer (more flat, followed step-by-step) than:
+>
+>   ```js
+>   while (blah) { /* Or for(blah) */
+>     if (quickVerificationForBreak()) {
+>       if (quickVerificationForContinue1() &&
+>         quickVerificationForContinue2() &&
+>         quickVerificationForContinue3()) {
+>         // And let's not talk about doing this
+>         // with independent nested if's...
+>         doStuff();
+>       }
+>     else {
+>       // Act on loop guards to finish prematurely
+>       // or act so that next iterations are not done
+>       // with a guard that deactivates them since
+>       // this momment.
+>     }
+>   }
+>   ```
+>
+> - And the more verifications and more stuff done, the more the code gets
+>   more innecessarily nested and difficult.
+> - The thing to take into account is: if we are in the middle of
+>   something when we "break/continue", we should not leave stuff in a dirty
+>   state: we clean stuff if needed before.
+> - Something very similar applies to the use of "return". Some say
+>   "use of return in the middle of a function considered harmful". But this
+>   is again quite debatable.
+
 ````warn header="No `break/continue` to the right side of '?'"
 Please note that syntax constructs that are not expressions cannot be used with the ternary operator `?`. In particular, directives such as `break/continue` aren't allowed there.
 
@@ -396,6 +447,13 @@ label: {
 A `continue` is only possible from inside a loop.
 ````
 
+> [!t]- t: Is label use bad practice?
+>
+> - Again, using labels remind to some persons to the "goto considered
+>   harmful" (even more than when using break/continue without labels).
+> - Again, their use may be justified for clarity if the alternative is
+>   worst. Just double check that using them is not a code smell.
+
 ## Summary
 
 We covered 3 types of loops:
@@ -404,8 +462,35 @@ We covered 3 types of loops:
 - `do..while` -- The condition is checked after each iteration.
 - `for (;;)` -- The condition is checked before each iteration, additional settings available.
 
+> [!t]- t: Equivalence of the 3 types of loops
+>
+> In JS you can always refactor any loop to use one of the other two. But in
+> some cases, some of them are clearer than the others for a specific use.
+
 To make an "infinite" loop, usually the `while(true)` construct is used. Such a loop, just like any other, can be stopped with the `break` directive.
+
+> [!t]- t: Or put a condition that you act on
+>
+> Some are afraid of `while(true)` and do a more sophisticated (disguised)
+> infinite loop:
+>
+> ```js
+> let loop = true;
+> while (loop) {
+>   // Do stuff and set `loop = false;` when needing to break the loop.
+>   // And take care on the flow that when setting `loop` to false,
+>   // nothing else is done in this loop iteration.
+> }
+>
+> If they want so, let's say that this is a free country... But many others
+> will very legitimately use a `while(true)` loop (call it
+> "the while-true pride").
 
 If we don't want to do anything in the current iteration and would like to forward to the next one, we can use the `continue` directive.
 
 `break/continue` support labels before the loop. A label is the only way for `break/continue` to escape a nested loop to go to an outer one.
+
+> [!t]- t: Not the only way...
+>
+>  You could do it by controlling the loop conditions. But surely with much
+>  less clear code.

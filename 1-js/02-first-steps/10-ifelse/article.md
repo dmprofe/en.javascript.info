@@ -103,6 +103,29 @@ In the code above, JavaScript first checks `year < 2015`. If that is falsy, it g
 
 There can be more `else if` blocks. The final `else` is optional.
 
+> [!t]- t: "else if" is not a different or added syntax.
+>
+> - "if" and "else" are the only things provided.
+> - But using them this way is much clearer than nesting the if's in their
+>   preceding "else".
+>
+>   ```js
+>   if (year < 2015) {
+>     alert( 'Too early...' );
+>   } else {
+>     if (year > 2015) {
+>       alert( 'Too late' );
+>     } else {
+>       alert( 'Exactly!' );
+>     }
+>   }
+>   ```
+>
+>   And imagine if there were more "else if": more nesting!
+> - This is a particular case of a broader advice: try avoid nesting if
+>   you can do it easily: this leads to more readable and mantainable
+>   code.
+
 ## Conditional operator '?'
 
 Sometimes, we need to assign a variable depending on a condition.
