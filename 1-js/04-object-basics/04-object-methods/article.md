@@ -60,12 +60,21 @@ user.sayHi = sayHi;
 user.sayHi(); // Hello!
 ```
 
+> ![t]- t: Method is a particular case of property
+>
+> We have seen with these examples that in JS methods are just like other
+> properties, only that they happen to point to a function. And functions
+> are in JS first class citizens, in fact they are a subtype of Objects
+> (non primitive). They are treated by reference, as seen in the examples.
+
 ```smart header="Object-oriented programming"
 When we write our code using objects to represent entities, that's called [object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), in short: "OOP".
 
 OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E. Gamma, R. Helm, R. Johnson, J. Vissides or "Object-Oriented Analysis and Design with Applications" by G. Booch, and more.
 ```
 ### Method shorthand
+
+> ![t] t: ES6/ES2015 addition
 
 There exists a shorter syntax for methods in an object literal:
 
@@ -167,7 +176,11 @@ admin.sayHi(); // TypeError: Cannot read property 'name' of null
 
 If we used `this.name` instead of `user.name` inside the `alert`, then the code would work.
 
+> ![t] t: So far, this "this" is like the one in Java (and others). But...
+
 ## "this" is not bound
+
+> ![t] t: ... Welcome to the jungle! "this" is one of the hard aspects in JS.
 
 In JavaScript, keyword `this` behaves unlike most other programming languages. It can be used in any function, even if it's not a method of an object.
 
@@ -180,6 +193,20 @@ function sayHi() {
 ```
 
 The value of `this` is evaluated during the run-time, depending on the context.
+
+> ![t]- t: And not only in this example.
+>
+> Go back and re-read when "this" was presented. They said:
+>
+> > The value of `this` is the object "before dot", the one used to call the
+> > method.
+>
+> Look at the following example they gave, with this sentence in mind and the
+> fact that this is "evaluated during the run-time, depending on the context".
+>
+> And now, we look at the same thing with an example where the "this" has
+> not been declared/used inside a function declared "inside the declaration
+> of the object".
 
 For instance, here the same function is assigned to two different objects and has different "this" in the calls:
 
@@ -206,6 +233,8 @@ admin['f'](); // Admin (dot or square brackets access the method – doesn't mat
 ```
 
 The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+
+> ![t] t: And this is what they mean with "`this` is not bound".
 
 ````smart header="Calling without an object: `this == undefined`"
 We can even call the function without an object at all:
@@ -235,6 +264,8 @@ The concept of run-time evaluated `this` has both pluses and minuses. On the one
 Here our position is not to judge whether this language design decision is good or bad. We'll understand how to work with it, how to get benefits and avoid problems.
 ```
 
+> ![t] t: Again: power and responsability (® Uncle Ben).
+
 ## Arrow functions have no "this"
 
 Arrow functions are special: they don't have their "own" `this`. If we reference `this` from such a function, it's taken from the outer "normal" function.
@@ -253,8 +284,55 @@ let user = {
 user.sayHi(); // Ilya
 ```
 
+> ![t] t: "outer normal function":
+>
+> - As seen in statically in **source code** in the declaration, and not
+>   anymore in runtime in the method/function usage.
+> - The `this` of the "outer normal function" reference itself isn't generally
+>   seen statically in the declaration, but as we now know, is bound in
+>   runtime upon function calling. The example shows that: `this` becomes
+>   `user` inside sayHi() in the example because it is called as `user.sayHi()`.
+>   **Then**, the arrow functions will take that `this` "as is" without
+>   thinking more.
+> - If outer are arrow functions, skip them until finding a non-arrow one.
+>   - What if not normal one found all the way?
+
+> ![t]- t: Don't use arrow functions for methods themselves (if they use `this`)
+>
+> I.e.: You can instead of this:
+>
+> ```js
+> user = {
+>   sayHi: function() {
+>     alert("Hello");
+>   }
+> };
+> ```
+>
+> Do this if you please so:
+>
+> ```js
+> user = {
+>   sayHi: () => {
+>     alert("Hello");
+>   }
+> };
+> ```
+>
+> (except for the fact that the function shorthand is prefered as stated above
+> in this article).
+>
+> But if inside that method `this` was needed, then the calling of this method
+> would not work as expected!
+>
+> The example we are given in jsinfo use arrow function **inside** a method,
+> not for **defining** the method itself (which is not normally a good idea).
+
 That's a special feature of arrow functions, it's useful when we actually do not want to have a separate `this`, but rather to take it from the outer context. Later in the chapter <info:arrow-functions> we'll go more deeply into arrow functions.
 
+> ![t]- t: Arrow functions equal normal anonymous function expressions...
+>
+> ... except when there is a `this` inside their code. Remember that.
 
 ## Summary
 
@@ -266,5 +344,11 @@ The value of `this` is defined at run-time.
 - When a function is declared, it may use `this`, but that `this` has no value until the function is called.
 - A function can be copied between objects.
 - When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
+
+> ![t]- t: "a function can be copied between objects".
+>
+> I'm not sure of what this refers to of this article. In any case, we've
+> seen that functions are not "deep copied" when assigned, but just
+> reference copied (they work as Objects, non-primitive).
 
 Please note that arrow functions are special: they have no `this`. When `this` is accessed inside an arrow function, it is taken from outside.

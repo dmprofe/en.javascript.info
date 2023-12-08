@@ -3,7 +3,15 @@
 
 [recent browser="new"]
 
+> ![t] t: ES2020 addition
+
 The optional chaining `?.` is a safe way to access nested object properties, even if an intermediate property doesn't exist.
+
+> ![t]- t: Skip to summary if you are in a hurry.
+>
+> - You may decide to not learn and use the optional chaining, but others may
+>   use it. Have a look to the summary at least to know the basics in case
+>   you see them in other's code (it's quite simple to understand).
 
 ## The "non-existing property" problem
 
