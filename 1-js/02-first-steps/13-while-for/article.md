@@ -282,7 +282,7 @@ From a technical point of view, this is identical to the example above. Surely, 
 But as a side effect, this created one more level of nesting (the `alert` call inside the curly braces). If the code inside of `if` is longer than a few lines, that may decrease the overall readability.
 ````
 
-> [!t]- t: Is break/continue bad practice?
+> [!t] t: Is break/continue bad practice?
 >
 > - Some strict persons claim that is bad programming to use "break" or
 >   "continue", since it breaks the "pure flow". It reminds them of a
@@ -447,7 +447,7 @@ label: {
 A `continue` is only possible from inside a loop.
 ````
 
-> [!t]- t: Is label use bad practice?
+> [!t] t: Is label use bad practice?
 >
 > - Again, using labels remind to some persons to the "goto considered
 >   harmful" (even more than when using break/continue without labels).
@@ -462,14 +462,14 @@ We covered 3 types of loops:
 - `do..while` -- The condition is checked after each iteration.
 - `for (;;)` -- The condition is checked before each iteration, additional settings available.
 
-> [!t]- t: Equivalence of the 3 types of loops
+> [!t] t: Equivalence of the 3 types of loops
 >
 > In JS you can always refactor any loop to use one of the other two. But in
 > some cases, some of them are clearer than the others for a specific use.
 
 To make an "infinite" loop, usually the `while(true)` construct is used. Such a loop, just like any other, can be stopped with the `break` directive.
 
-> [!t]- t: Or put a condition that you act on
+> [!t] t: Or put a condition that you act on
 >
 > Some are afraid of `while(true)` and do a more sophisticated (disguised)
 > infinite loop:
@@ -490,7 +490,7 @@ If we don't want to do anything in the current iteration and would like to forwa
 
 `break/continue` support labels before the loop. A label is the only way for `break/continue` to escape a nested loop to go to an outer one.
 
-> [!t]- t: Not the only way...
+> [!t] t: Not the only way...
 >
 >  You could do it by controlling the loop conditions. But surely with much
 >  less clear code.

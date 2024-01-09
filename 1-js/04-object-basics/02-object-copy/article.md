@@ -263,7 +263,7 @@ To fix that and make `user` and `clone` truly separate objects, we should use a 
 
 ### structuredClone
 
-> ![t]- t: ES2019 addition!
+> ![t] t: ES2019 addition!
 
 The call `structuredClone(object)` clones the `object` with all nested properties.
 
@@ -322,7 +322,7 @@ Function properties aren't supported.
 
 To handle such complex cases we may need to use a combination of cloning methods, write custom code or, to not reinvent the wheel, take an existing implementation, for instance [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) from the JavaScript library [lodash](https://lodash.com).
 
-> ![t]- t: Deep equality check.
+> ![t] t: Deep equality check.
 >
 > The same that we've covered here a "deep cloning" (recursive cloning),
 > there are times where we may need a "deep equality check" (recursive

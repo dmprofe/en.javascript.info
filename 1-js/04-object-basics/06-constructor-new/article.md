@@ -4,7 +4,7 @@ The regular `{...}` syntax allows us to create one object. But often we need to 
 
 That can be done using constructor functions and the `"new"` operator.
 
-> ![t]- t: Factory functions
+> ![t] t: Factory functions
 >
 > - Before entering this (constructor functions and `new` operator), there
 >   is another way of generating objects from a function.
@@ -96,7 +96,7 @@ let user = {
 };
 ```
 
-> ![t]- t: Yet another behaviour of `this` dependent on the way of calling a function.
+> ![t] t: Yet another behaviour of `this` dependent on the way of calling a function.
 >
 > - To be added to what we already learned about `this`.
 
@@ -108,7 +108,7 @@ That's the main purpose of constructors -- to implement reusable object creation
 
 Let's note once again -- technically, any function (except arrow functions, as they don't have `this`) can be used as a constructor. It can be run with `new`, and it will execute the algorithm above. The "capital letter first" is a common agreement, to make it clear that a function is to be run with `new`.
 
-> ![t]- t: Classes are not needed in JS.
+> ![t] t: Classes are not needed in JS.
 >
 > - Note that, contrary to Java, in JS we can define and use constructor
 >   functions to instantiate objects without having to create/define a class.
@@ -272,7 +272,7 @@ john = {
 */
 ```
 
-> ![t]- t: The "method shorthand" we saw for litteral notation cannot be used here.
+> ![t] t: The "method shorthand" we saw for litteral notation cannot be used here.
 
 To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
 

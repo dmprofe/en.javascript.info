@@ -14,7 +14,7 @@ Until now we've been using only strings.
 
 Now let's explore symbols, see what they can do for us.
 
-> ![t]- t: Skip the rest of this guide if you are in a hurry.
+> ![t] t: Skip the rest of this guide if you are in a hurry.
 >
 > - We can consider it "advanced".
 > - There are some stuff in following guides that we will not understand. Let's

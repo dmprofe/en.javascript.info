@@ -103,7 +103,7 @@ In the code above, JavaScript first checks `year < 2015`. If that is falsy, it g
 
 There can be more `else if` blocks. The final `else` is optional.
 
-> [!t]- t: "else if" is not a different or added syntax.
+> [!t] t: "else if" is not a different or added syntax.
 >
 > - "if" and "else" are the only things provided.
 > - But using them this way is much clearer than nesting the if's in their

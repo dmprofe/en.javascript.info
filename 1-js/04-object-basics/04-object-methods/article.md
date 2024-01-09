@@ -60,7 +60,7 @@ user.sayHi = sayHi;
 user.sayHi(); // Hello!
 ```
 
-> ![t]- t: Method is a particular case of property
+> ![t] t: Method is a particular case of property
 >
 > We have seen with these examples that in JS methods are just like other
 > properties, only that they happen to point to a function. And functions
@@ -194,7 +194,7 @@ function sayHi() {
 
 The value of `this` is evaluated during the run-time, depending on the context.
 
-> ![t]- t: And not only in this example.
+> ![t] t: And not only in this example.
 >
 > Go back and re-read when "this" was presented. They said:
 >
@@ -297,7 +297,7 @@ user.sayHi(); // Ilya
 > - If outer are arrow functions, skip them until finding a non-arrow one.
 >   - What if not normal one found all the way?
 
-> ![t]- t: Don't use arrow functions for methods themselves (if they use `this`)
+> ![t] t: Don't use arrow functions for methods themselves (if they use `this`)
 >
 > I.e.: You can instead of this:
 >
@@ -330,7 +330,7 @@ user.sayHi(); // Ilya
 
 That's a special feature of arrow functions, it's useful when we actually do not want to have a separate `this`, but rather to take it from the outer context. Later in the chapter <info:arrow-functions> we'll go more deeply into arrow functions.
 
-> ![t]- t: Arrow functions equal normal anonymous function expressions...
+> ![t] t: Arrow functions equal normal anonymous function expressions...
 >
 > ... except when there is a `this` inside their code. Remember that.
 
@@ -345,7 +345,7 @@ The value of `this` is defined at run-time.
 - A function can be copied between objects.
 - When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
 
-> ![t]- t: "a function can be copied between objects".
+> ![t] t: "a function can be copied between objects".
 >
 > I'm not sure of what this refers to of this article. In any case, we've
 > seen that functions are not "deep copied" when assigned, but just

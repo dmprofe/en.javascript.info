@@ -10,7 +10,13 @@ callouts](https://help.obsidian.md/Editing+and+formatting/Callouts)
 They use a customized callout type "t" (for Teacher):
 
 ```md
-> [!t]- t: This is a note.
+> [!t] t: This is a note, body shown.
+>
+> Possible body
+
+> [!t] t: This is another note, body condensed.
+>
+> Possible body
 ```
 
 Some Obsidian configuration is also provided that renders that and also a possible `[!x]-` custom note for extra comments from a student.

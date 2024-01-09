@@ -9,7 +9,7 @@ An object can be created with figure brackets `{…}` with an optional list of *
 
 We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
 
-> ![t]- t: Objects are 1st class citizens. Their properties are dynamic.
+> ![t] t: Objects are 1st class citizens. Their properties are dynamic.
 >
 > These are key differences with Java:
 >
@@ -137,7 +137,7 @@ delete user["likes birds"];
 
 Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).
 
-> ![t]- t: JS objects are sort of assotiative arrays
+> ![t] t: JS objects are sort of assotiative arrays
 >
 > The bracket notation shows this. Objects can be seen as arrays that instead
 > of having as index with a positive increasing integer, they have as indexes
@@ -435,7 +435,7 @@ Note that all "for" constructs allow us to declare the looping variable inside t
 
 Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
 
-> ![t]- t: For arrays, don't use "for..in", use "for..of" (or "normal for")
+> ![t] t: For arrays, don't use "for..in", use "for..of" (or "normal for")
 
 ### Ordered like an object
 
@@ -521,9 +521,9 @@ for (let code in codes) {
 
 Now it works as intended.
 
-> ![t]- t: We may not want to rely much on this creation order to avoid surprises.
+> ![t] t: We may not want to rely much on this creation order to avoid surprises.
 
-> ![t]- t: Object details in console/debugger sort properties alphabetically
+> ![t] t: Object details in console/debugger sort properties alphabetically
 >
 > Worth noting that in the console/debugger (FF and Chrome at least) when
 > showing an object:
