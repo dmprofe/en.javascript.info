@@ -4,6 +4,16 @@ In JavaScript, the textual data is stored as strings. There is no separate type 
 
 The internal format for strings is always [UTF-16](https://en.wikipedia.org/wiki/UTF-16), it is not tied to the page encoding.
 
+> [!t] t: The page enconding is typically UTF-8
+>
+> - So the encoding of the JS code we run, the HTML and the CSS is
+>   generally in UTF-8. UTF-16 is what is used internally in the JS
+>   engine (using conversions as needed).
+> - In general, also use UTF-8 whenever possible for external
+>   communications (AJAX, cookies, form fields, SQL queries if you rare
+>   in node.js, ...). Exceptions: in particular cases where a
+>   different one is expected.
+
 ## Quotes
 
 Let's recall the kinds of quotes.
@@ -206,6 +216,18 @@ Or, if we want a single character lowercased:
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
+> [!t] t: String is not affected in place (they are immutable)
+>
+> - To change a variable, we must reassign the output to it.
+> - For example:
+>
+>   ```js
+>   let str='hello';
+>   str = str.toUpperCase();
+>   ```
+> - Similar thing applies to any string method: the string
+>   itself is unaffected.
+
 ## Searching for a substring
 
 There are multiple ways to look for a substring within a string.
@@ -215,6 +237,8 @@ There are multiple ways to look for a substring within a string.
 The first method is [str.indexOf(substr, pos)](mdn:js/String/indexOf).
 
 It looks for the `substr` in `str`, starting from the given position `pos`, and returns the position where the match was found or `-1` if nothing can be found.
+
+> [!t] t: position is an index (starts with 0), **included**
 
 For instance:
 
@@ -302,6 +326,8 @@ if (str.indexOf("Widget") != -1) {
 
 The more modern method [str.includes(substr, pos)](mdn:js/String/includes) returns `true/false` depending on whether `str` contains `substr` within.
 
+> [!t] t: pos is an index (starts with 0), **included**
+
 It's the right choice if we need to test for the match, but don't need its position:
 
 ```js run
@@ -331,6 +357,8 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 `str.slice(start [, end])`
 : Returns the part of the string from `start` to (but not including) `end`.
 
+> [!t] t: Both are index (start with 0). start **included**, end **exluded**
+
     For instance:
 
     ```js run
@@ -359,6 +387,8 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 : Returns the part of the string *between* `start` and `end` (not including `end`).
 
     This is almost the same as `slice`, but it allows `start` to be greater than `end` (in this case it simply swaps `start` and `end` values).
+
+    > [!t] t: slice in that case returns empty string instead.
 
     For instance:
 
@@ -477,6 +507,85 @@ The characters are compared by their numeric code. The greater code means that t
 - All lowercase letters go after uppercase letters because their codes are greater.
 - Some letters like `Ö` stand apart from the main alphabet. Here, its code is greater than anything from `a` to `z`.
 
+> [!t] t: Overview of "groups" of characters (and their order) in Unicode
+>
+> - Unicode point codes are grouped in [unicode
+>   blocks](https://en.wikipedia.org/wiki/Unicode_block).
+>   - The first block of 128 chars is called "Basic Latin". It
+>     corresponds to the characters of ASCII standard (in their order).
+>   - The next block of 128 chars is called "Latin-1 Supplement". It
+>     corresponds of the second half of the Extended ASCII "ISO 8859-1",
+>     the most popular Extended ASCII that contains most of the missing
+>     chars for covering European most popular languages (common
+>     accented chars, etc).
+>   - Then come other blocks with different sizes: stargin with some for
+>     complementing latin scripts even more, then others for covering
+>     other scripts and representations.
+> - We can look in more detail the first blocks in the
+>   [list of unicode characters](https://en.wikipedia.org/wiki/List_of_Unicode_characters):
+>   - We see some "groups" of characters, and their order, which will
+>     be the default sort order in JS.
+>   - These groups in their order with some examples of contained
+>     characters:
+>     - Basic Latin
+>       - 32 control chars: null character, line feed, carriage
+>         return, horizontal tab, ... Many are not used anymore.
+>       - 16 punctuation/symbols: space, !, (, ), ., +, -, /, ...
+>       - 10 digits: 0, 1, ... 9
+>       - 7 punctuation/symbols: :, ;, <, =, >, ?, @
+>       - 26 uppercase letters: A, B, ..., Z
+>       - 6 punctuation/symbols: [, \, ], ^, _, \`
+>       - 26 lowercase letters: a, b, ..., z
+>       - 4 punctuation/symbols: {, |, }, ~
+>       - 1 control char: Delete
+>     - Latin-1 Supplement
+>       - 32 control characters: most are not used anymore.
+>       - 32 punctuation/symbols: non-breaking space, ¡, ©, ®, ¿, ...
+>       - 30 uppercase letters (most accented): ..., Á, ..., É, ..., Í, ... Ñ, ..., Ó, ..., Ú, ...
+>         - 1 math symbol (inserted inside that group): ×
+>       - 32 lowercase letters (most accented): ..., á, ..., é, ..., í, ... ñ, ..., ó, ..., ú, ...
+>         - 1 math symbol (inserted inside that group): ÷
+>     - So the default sort order of the groups is:
+>       numbers, ASCII standard uppercase, ASCII standard lowercase,
+>       ASCII extended uppercase, ASCII extended lowercase.
+>     - And there are different punctuation and symbols around these
+>       groups, with no particular logic. E.g. - and / are before
+>       numbers, but _ and \ are between uppercase and lowercase
+>       standard ASCII, and | is after uppercase standard ASCII...
+> - BMP, UTF32, UTF-16 and UTF-8:
+>   - Recent versions of Unicode have ~150 000 point codes (characters).
+>     With UTF-32 (not used normally), they are coded each one with 32b
+>     (4B), that leaves plenty of room (2^32 ~ 4 000 000 000).
+>   - We've seen that the point codes are grouped in "blocks" (typically
+>     representing different languages).
+>   - Several blocks are grouped in "planes".
+>   - The most important is the first plane, Plane 0, called BMP (Basic
+>     Multilingual Plane).
+>   - It covers the first 2^16 ~= 65000 code points.
+>   - It covers the normally used languages in the world (including
+>     Chinese, etc, that have each thousands of characters).
+>   - UTF-16 codifies 1 char of BMP in 16b = 2B. For BMP characters (the
+>     overwhelming majority), it is a fixed length encoding (as UTF-32),
+>     but taking less place. This good compromise makes that many OS
+>     (e.g. Windows) and languages (e.g. JS) code internaly in UTF-16.
+>   - But UTF-16 is not restricted to the BMP. The characters outside
+>     BMP simply take the double of space 16b+16b=32b, 2B+2B=4B, but
+>     only this.
+>   - In short: UTF-16 is a variable length encoding, but most of the
+>     time a character in it uses 16b.
+>   - UTF-8: uses 8b=1B if in the ASCII standard range (first Unicode
+>     block of 128 chars). And increasingly more, up to 32b=4B for
+>     increasingly far code points. E.g. ASCII extended take 2B, but
+>     Chinese characters take 3B (contrary to 2B in UTF-16).
+>   - In short: UTF-8 is a variable enconding but much more often
+>     variable. Only fixed to 8b=1B when only ASCII standard is used.
+>     - It takes less space than UTF-16 for many scripts.
+>     - It takes more for Chinese and others.
+>     - It is ASCII-compatible.
+>     - In any case, it is most recommended for
+>       communications/interoperativity (at least in a web techs
+>       context).
+
 ### Correct comparisons [#correct-comparisons]
 
 The "right" algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages.
@@ -493,13 +602,107 @@ The call [str.localeCompare(str2)](mdn:js/String/localeCompare) returns an integ
 - Returns a positive number if `str` is greater than `str2`.
 - Returns `0` if they are equivalent.
 
+> [!t] t: Read: `str.localeCompare(str2)` is positive ("true") if str comes after str2
+>
+> - Is negative ("false") if it comes before.
+> - Is zero if same place.
+>   - They can be in the "same place" even if different when we activate
+>     insensitiveness (see config options below).
+
 For instance:
 
 ```js run
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
 
+> [!t] t: Don't count on -1 or +1: per spec, can be any negative or positive.
+
 This method actually has two additional arguments specified in [the documentation](mdn:js/String/localeCompare), which allows it to specify the language (by default taken from the environment, letter order depends on the language) and setup additional rules like case sensitivity or should `"a"` and `"á"` be treated as the same etc.
+
+> [!t] t: Important for non-english, but not straighforward to use.
+>
+> - Constructor
+>   [`Intl.Collator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator):
+>   - Provides an alternative way of doing locale comparison,
+>     recommended when having to do "many comparisons": e.g.
+>     sorting or filtering an array.
+>   - One first instatiates an object with the desired
+>     configuration. Something like
+>     `collator = new Intl.Collator(/*[options]*/);`.
+>   - Then, this object provides a method `collator.compare(str, str2)`
+>     with same result than `str.localeCompare(str2)`.
+> - The configuration parameters are the same in both ways. With
+>   `str.localCompare()` it's the second and third optional arguments,
+>   and with `Intl.Collator` it's the first and second optional
+>   arguments when instantiating.
+> - By default the locale (language/script) used is taken from the
+>   environment. In the browser, this may be the locale of the end-user,
+>   but I'm not sure that it is always like this.
+> - One can check this default locale detected with:
+>
+>   ```js
+>   (new Intl.Collator()).resolvedOptions().locale
+>   ```
+>
+> - There may be nuances in ordering among languages. We can force a
+>   locale with the second option in `str.localCompare()`, and the first
+>   option in `new Intl.Collator()`.
+> - For example, to force spanish:
+>
+>   ```js
+>   // Local compare with locale 'es' (spanish):
+>   alert( 'zorro'.localeCompare('ámbar', 'es') );
+>     // positive: zorro is after ámbar.
+>   // However, with non-locale comparison:
+>   alert( 'zorro' > 'ámbar' );
+>     // false: zorro is **before** ámbar.
+>   // Note: local compare with local 'en' (english):
+>   alert( 'zorro'.localeCompare('ámbar', 'en') );
+>     // also positive, as with locale 'es'. But we don't know if this
+>     // can be generalized for every case.
+>   // Using Intl.Collator:
+>   const collator = new Intl.Collator('es');
+>   alert( collator.compare('zorro', 'ámbar') );
+>     // positive: zorro is after ámbar.
+>   ```
+>
+> - Further configuration can be made with an input "object". The third
+>   parameter in `str.localCompare()` and the second in
+>   `newIntl.Collator()`.
+> - [Options for the comparison](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#options):
+>   - "usage" can be one of:
+>     - "sort" (default): for sorting (ordering).
+>     - "search": optimized for searching (just knowing if matches or
+>       not).
+>   - "sensitivity" can be one of:
+>     - "case": only case sensitive (but not accent sensitive):
+>       a ≠ b, a = á, a ≠ A
+>     - "accent": only accent sensitive (but not case sensitive):
+>       a ≠ b, a ≠ á, a = A
+>     - "variant": both case and accent sensitive (normal comparison):
+>       a ≠ b, a ≠ á, a ≠ A 
+>     - "base": both case and accent insensitive:
+>       a ≠ b, a = á, a = A
+>     - Default is "variant" (ultra-sensitive) for "sort". For "search",
+>       it depends on the locale.
+>   - "ignorePunctuation":
+>     - Boolean, false by default.
+>     - If true, it ignores any punctuation character when comparing:
+>       "hellobye" = "hello bye" = "hello - bye" = "hello,._-/\n%bye"
+>   - Other (see the reference).
+> - Example:
+>
+>   ```js
+>   // Local compare with locale 'es' (spanish):
+>   const collator = new Intl.Collator(
+>     'es',
+>     { sensitivity: 'base', ignorePunctuation: true });
+>   alert( collator.compare('Martínez-Polo', 'martinez polo') );
+>     // 0 (equal)
+>   // Note: could also be done with `str.localCompare()`, but each time
+>   // one has to provide the config, and it may be less performant.
+>   ```
+>
 
 ## Summary
 
@@ -511,6 +714,8 @@ This method actually has two additional arguments specified in [the documentatio
 - To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
 - To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
 
+> [!t] t: Or better use `Intl.Collator`.
+
 There are several other helpful methods in strings:
 
 - `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
@@ -518,5 +723,7 @@ There are several other helpful methods in strings:
 - ...and more to be found in the [manual](mdn:js/String).
 
 Strings also have methods for doing search/replace with regular expressions. But that's big topic, so it's explained in a separate tutorial section <info:regular-expressions>.
+
+> [!t] t: This may deserve a "spoiler alert" introduction for the basics.
 
 Also, as of now it's important to know that strings are based on Unicode encoding, and hence there're issues with comparisons. There's more about Unicode in the chapter <info:unicode>.

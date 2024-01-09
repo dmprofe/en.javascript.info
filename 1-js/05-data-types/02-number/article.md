@@ -363,6 +363,12 @@ Please note that an empty or a space-only string is treated as `0` in all numeri
 In a way, `Number.isNaN` and `Number.isFinite` are simpler and more straightforward than `isNaN` and `isFinite` functions. In practice though, `isNaN` and `isFinite` are mostly used, as they're shorter to write.
 ````
 
+> [!t] t: Better use `Number.isNaN` and `Number.isFinite`: they are strict
+>
+> - `isNaN` and `isFinite` may byte you as in general may do "implicit
+>   castings" in JS.
+> - The `Number` counteparts are a ES6 addition, though.
+
 ```smart header="Comparison with `Object.is`"
 There is a special built-in method `Object.is` that compares values like `===`, but is more reliable for two edge cases:
 

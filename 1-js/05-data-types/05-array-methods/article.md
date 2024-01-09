@@ -19,6 +19,8 @@ How to delete an element from the array?
 
 The arrays are objects, so we can try to use `delete`:
 
+> [!t] t: Remember that we used `delete` to remove a property from an object
+
 ```js run
 let arr = ["I", "go", "home"];
 
@@ -38,6 +40,14 @@ So, special methods should be used.
 
 The [arr.splice](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: insert, remove and replace elements.
 
+> [!t] t: arr.splice changes arr **in place** (mutates the arr).
+>
+> - The same as pop/push/shift/unshift, but allows much more flexible
+>   actions.
+> - The performance penalty we mentioned when manipulating "at the
+>   start" (shift/unshift) surely also applies when manipulating "in the
+>   middle".
+
 The syntax is:
 
 ```js
@@ -45,6 +55,8 @@ arr.splice(start[, deleteCount, elem1, ..., elemN])
 ```
 
 It modifies `arr` starting from the index `start`: removes `deleteCount` elements and then inserts `elem1, ..., elemN` at their place. Returns the array of removed elements.
+
+> [!t] t: index (starts with zero), **included**
 
 This method is easy to grasp by examples.
 
@@ -126,6 +138,12 @@ It returns a new array copying to it all items from index `start` to `end` (not 
 
 It's similar to a string method `str.slice`, but instead of substrings it makes subarrays.
 
+> [!t] t: Not subarray**s**, but **a single** subarray.
+
+> [!t] t: arr.slice does **not** change arr **in place**
+>
+> - Contrary to arr.splice, and similar to str.slice
+
 For instance:
 
 ```js run
@@ -138,9 +156,19 @@ alert( arr.slice(-2) ); // s,t (copy from -2 till the end)
 
 We can also call it without arguments: `arr.slice()` creates a copy of `arr`. That's often used to obtain a copy for further transformations that should not affect the original array.
 
+> [!t] t: Here, and in any case: not "recursive copy"
+>
+> ```js
+> const a = [ { b: 1 }, 2 ];
+> const b = a.slice(0, 1); // b = [ { b: 1 } ]
+> alert( a[0] === b[0] ); // true: not cloned, only reference copied.
+> ```
+
 ### concat
 
 The method [arr.concat](mdn:js/Array/concat) creates a new array that includes values from other arrays and additional items.
+
+> [!t]: t: **new array**: arr unaffected (not changed in place)
 
 The syntax is:
 
@@ -168,6 +196,14 @@ alert( arr.concat([3, 4], [5, 6]) ); // 1,2,3,4,5,6
 // create an array from: arr and [3,4], then add values 5 and 6
 alert( arr.concat([3, 4], 5, 6) ); // 1,2,3,4,5,6
 ```
+
+> [!t] t: Again here: not "recursive copy"
+>
+> ```js
+> const a = [ { b: 1 }, 2 ];
+> const b = a.concat(3); // b = [ { b: 1 }, 2, 3]
+> alert( a[0] === b[0] ); // true: not cloned, only reference copied.
+> ```
 
 Normally, it only copies elements from arrays. Other objects, even if they look like arrays, are added as a whole:
 
@@ -227,6 +263,16 @@ And this code is more elaborate about their positions in the target array:
 
 The result of the function (if it returns any) is thrown away and ignored.
 
+> [!t]: arr.forEach is a functional alternative to make loops
+>
+> - Made in a single **expression**, makes what is normally done with
+>   for/while **statement**.
+> - We are seeing later many other array methods for doing functionally
+>   things that traditionally were done with loops: find, filter, map,
+>   sort, reduce, ...
+> - All of these use a callback (often an arrow function) for the "body
+>   of things to do".
+> - This is a very popular programming style in modern JS and frameworks.
 
 ## Searching in array
 
@@ -255,6 +301,8 @@ alert( arr.includes(1) ); // true
 
 Please note that `indexOf` uses the strict equality `===` for comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
 
+> [!t]: As always, as a rookie, embrace strict equality (for your own health).
+
 If we want to check if `item` exists in the array, and don't need the index, then `arr.includes` is preferred.
 
 The method [arr.lastIndexOf](mdn:js/Array/lastIndexOf) is the same as `indexOf`, but looks for from right to left.
@@ -277,11 +325,15 @@ alert( arr.includes(NaN) );// true (correct)
 That's because `includes` was added to JavaScript much later and uses the more up to date comparison algorithm internally.
 ````
 
+> [!t] t: NaN strikes back!
+
 ### find and findIndex/findLastIndex
 
 Imagine we have an array of objects. How do we find an object with the specific condition?
 
 Here the [arr.find(fn)](mdn:js/Array/find) method comes in handy.
+
+> [!t] t: Like indexOf, but when we need more "insight" in each element
 
 The syntax is:
 ```js
@@ -346,6 +398,10 @@ If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
 
 The syntax is similar to `find`, but `filter` returns an array of all matching elements:
 
+> [!t]: t: **new array**: arr unaffected (not changed in place)
+
+> [!t] t: Again here: not "recursive copy"
+
 ```js
 let results = arr.filter(function(item, index, array) {
   // if true item is pushed to results and the iteration continues
@@ -378,6 +434,8 @@ The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
 
 It calls the function for each element of the array and returns the array of results.
 
+> [!t]: Creates **new** array (arr not changed).
+
 The syntax is:
 
 ```js
@@ -396,6 +454,10 @@ alert(lengths); // 5,7,6
 ### sort(fn)
 
 The call to [arr.sort()](mdn:js/Array/sort) sorts the array *in place*, changing its element order.
+
+> [!t]: This one is **in place** (mutes arr).
+>
+> Copy first if we want to preserve the original.
 
 It also returns the sorted array, but the returned value is usually ignored, as `arr` itself is modified.
 
@@ -505,9 +567,29 @@ alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,
 ```
 ````
 
+> [!t] t: Remember my comments in on localCompare in string comparison section
+>
+> - May be better to use for performance  Intl.Collator 
+> - If we want to ensure exact german order, indicate this locale
+>   explicitly.
+> - We can configure to be case and/or accent and/or punctuation
+>   insensitive.
+> - Leave default "usage" ("sort") when sorting (e.g. arr.sort), but configure it
+>   to "search" when searching (e.g. arr.find)
+
+> [!t] t: Array of objects
+>
+> - Many times we sort an array of maybe complex objects. The callback
+>   for sorting decides wich "field" it uses of each object for doing
+>   the comparison.
+
 ### reverse
 
 The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
+
+> [!t]: This one is also **in place** (mutes arr).
+>
+> Copy first if we want to preserve the original.
 
 For instance:
 
@@ -526,6 +608,8 @@ Here's the situation from real life. We are writing a messaging app, and the per
 
 The [str.split(delim)](mdn:js/String/split) method does exactly that. It splits the string into an array by the given delimiter `delim`.
 
+> [!t] t: str.split returns array
+
 In the example below, we split by a comma followed by space:
 
 ```js run
@@ -539,6 +623,8 @@ for (let name of arr) {
 ```
 
 The `split` method has an optional second numeric argument -- a limit on the array length. If it is provided, then the extra elements are ignored. In practice it is rarely used though:
+
+> [!t] t: It's an index (starts with 0), and extra are ignored, **included it**.
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -558,6 +644,8 @@ alert( str.split('') ); // t,e,s,t
 
 The call [arr.join(glue)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items joined by `glue` between them.
 
+> [!t] t: arr.join returns string
+
 For instance:
 
 ```js run
@@ -573,6 +661,8 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 When we need to iterate over an array -- we can use `forEach`, `for` or `for..of`.
 
 When we need to iterate and return the data for each element -- we can use `map`.
+
+> [!t] t: Or returning a transformation of this data (here the name 'map').
 
 The methods [arr.reduce](mdn:js/Array/reduce) and [arr.reduceRight](mdn:js/Array/reduceRight) also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.
 
@@ -685,7 +775,17 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
+> [!t] t: Alternative method: checking the class
+>
+> - Arrays are instance objects of the class/constructor Array.
+> - We can check the class/constructor of an object. This method
+>   works for checking if it is "Array", and also works for
+>   fine tuning the checking of other types of objects.
+> - We will see later how this can be done.
+
 ## Most methods support "thisArg"
+
+> [!t] t: Skip this section if short of time
 
 Almost all array methods that call functions -- like `find`, `filter`, `map`, with a notable exception of `sort`, accept an optional additional parameter `thisArg`.
 
@@ -770,6 +870,8 @@ A cheat sheet of array methods:
 Please note that methods `sort`, `reverse` and `splice` modify the array itself.
 
 These methods are the most used ones, they cover 99% of use cases. But there are few others:
+
+> [!t] t: Skip these if in an hurry
 
 - [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) check the array.
 
