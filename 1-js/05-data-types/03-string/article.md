@@ -631,44 +631,49 @@ This method actually has two additional arguments specified in [the documentatio
 >     `collator = new Intl.Collator(/*[options]*/);`.
 >   - Then, this object provides a method `collator.compare(str, str2)`
 >     with same result than `str.localeCompare(str2)`.
-> - The configuration parameters are the same in both ways. With
->   `str.localCompare()` it's the second and third optional arguments,
->   and with `Intl.Collator` it's the first and second optional
->   arguments when instantiating.
-> - By default the locale (language/script) used is taken from the
->   environment. In the browser, this may be the locale of the end-user,
->   but I'm not sure that it is always like this.
+> - There are 2 optional configuration parameters, similar in
+>   both methods:
+>   - locale (language/script/region/variant) specification
+>   - further options.
+> - With `str.localCompare()` they are placed, each time, after the
+>   string to compare.
+> - With `Intl.Collator` they are placed once in the constructor.
+> - If no locale (language) is specified, by default it is taken from
+>   the "environment".
 > - One can check this default locale detected with:
 >
 >   ```js
 >   (new Intl.Collator()).resolvedOptions().locale
 >   ```
 >
-> - There may be nuances in ordering among languages. We can force a
->   locale with the second option in `str.localCompare()`, and the first
->   option in `new Intl.Collator()`.
-> - For example, to force spanish:
+> - In the browser, this may be the locale of the
+>   end-user, but I'm not sure that it is always like this.
+> - Since there may be nuances in ordering among languages, we can
+>   ensure the locale used with an optional parameter, for being sure of
+>   the one that is used.
+> - For example, to force spanish language:
 >
 >   ```js
->   // Local compare with locale 'es' (spanish):
->   alert( 'zorro'.localeCompare('ámbar', 'es') );
->     // positive: zorro is after ámbar.
->   // However, with non-locale comparison:
+>   // With non-locale comparison:
 >   alert( 'zorro' > 'ámbar' );
->     // false: zorro is **before** ámbar.
->   // Note: local compare with local 'en' (english):
->   alert( 'zorro'.localeCompare('ámbar', 'en') );
->     // also positive, as with locale 'es'. But we don't know if this
->     // can be generalized for every case.
+>     // false: no good! zorro shouldn't be before ámbar.
+>   // Locale compare with 'es' (spanish):
+>   alert( 'zorro'.localeCompare('ámbar', 'es') );
+>     // positive: good! zorro is after ámbar.
 >   // Using Intl.Collator:
 >   const collator = new Intl.Collator('es');
 >   alert( collator.compare('zorro', 'ámbar') );
->     // positive: zorro is after ámbar.
+>     // positive: good! zorro is after ámbar.
+>   // Note: With local 'en' (english):
+>   alert( 'zorro'.localeCompare('ámbar', 'en') );
+>     // also positive, as with locale 'es'. But we don't know if this
+>     // can be generalized for every case. If we want to ensure that
+>     // we compare "in the spanish way", we specify 'es'
 >   ```
 >
-> - Further configuration can be made with an input "object". The third
->   parameter in `str.localCompare()` and the second in
->   `newIntl.Collator()`.
+> - Further configuration can be made with an input "object" containing
+>   options. We specify in the object the particular ones we want to
+>   diverge from their default values.
 > - [Options for the comparison](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#options):
 >   - "usage" can be one of:
 >     - "sort" (default): for sorting (ordering).
@@ -689,11 +694,15 @@ This method actually has two additional arguments specified in [the documentatio
 >     - Boolean, false by default.
 >     - If true, it ignores any punctuation character when comparing:
 >       "hellobye" = "hello bye" = "hello - bye" = "hello,._-/\n%bye"
+>   - "numeric":
+>     - Boolean, false by defult.
+>     - Compares consecutive digits in numeric order (placing '10' after
+>       '2').
+>     - Does not handle well decimals.
 >   - Other (see the reference).
-> - Example:
+> - Example of ultra-insensitive search:
 >
 >   ```js
->   // Local compare with locale 'es' (spanish):
 >   const collator = new Intl.Collator(
 >     'es',
 >     { sensitivity: 'base', ignorePunctuation: true });
@@ -703,6 +712,53 @@ This method actually has two additional arguments specified in [the documentatio
 >   // one has to provide the config, and it may be less performant.
 >   ```
 >
+> - Examples of numeric comparison
+>
+>   ```js
+>   const collator = new Intl.Collator( 'en', { numeric: true });
+>   alert( '10€' > '2€' );
+>     // false, no good.
+>   alert( collator.compare('10€', '2€') );
+>     // positive, good
+>   alert( '1.50€' > '1€' );
+>     // false, no good
+>   alert( collator.compare('1.50€', '1€') );
+>     // negative, no good! Needed '1.00€' to work.
+>   alert( collator.compare('$1.50', '$1') );
+>     // positive, good... but needed to **end** with numbers
+>   ```
+>
+> - Browser compatibility:
+>   - Intl related stuff may not have universal support. E.g.
+>     [`Intl.Collator` support](https://caniuse.com/mdn-javascript_builtins_intl_collator)
+>     is 97% as of 2024 (and it is also needed for using options in
+>     str.localeCompare). Gracefull degradation and/or polyfill could be
+>     considered here.
+>   - Besides, even when supported, not every possible locale is
+>     available on every browser installation (would make them huge).
+>     - One can check availability of an array of locales like this:
+>
+>       ```js
+>       // Are english, spanish, french and balinese locales supported?
+>       alert ( Intl.Collator.supportedLocalesOf(
+>         ['en', 'es', 'fr', 'ban']);
+>         // ['en', 'es', 'fr'] : balinese missing, rest are supported.
+>       // Is corsican locale supported?
+>       alert ( Intl.Collator.supportedLocalesOf('co');
+>         // [] : no (empty array).
+>       ```
+>
+>     - If for comparison we specify a locale that is not available, it
+>       fallbacks to the default runtime locale.
+> - More on locales:
+>   - We are simplifying here using locales that are whole languages.
+>   - A locale can be more specific than that:
+>     - 'en': english language in general.
+>     - 'en-US': english language, in the region of the US.
+>     - 'zh-Hans-CN': Chinese language, written in Hans script
+>       (simplified script, vs the traditional script), in the region of
+>       China (Chinese is used also in other regions, with possible
+>       variations: Hong Kong, Taiwan, ...).
 
 ## Summary
 
