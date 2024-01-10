@@ -422,6 +422,25 @@ alert( parseInt('2n9c', 36) ); // 123456
 ```
 ````
 
+> [!t] t: locale dependent number-string conversion
+>
+> - When having a number, to get a string according to the locale
+>   (language), one has the `number.toLocaleString()` method:
+>
+>   ```js
+>   let n = 1.2;
+>   alert ( n.toLocaleString('es') );
+>     // 1,2 : in Spanish, decimal is comma and not a dot.
+>   ```
+> - The opposite is currently (as of 2024) not evident nor standardized.
+>   - There isn't a `string.parseLocaleInt()` or
+>     `string.parseLocaleFloat()` nor anything equivalent.
+>    - While waiting if something gets standardized for this:
+>      - It's tempting to do "home-made" naive solutions: substitute ',' with
+>        '.' and then apply the `parseInt()` or `parseFloat()`.
+>      - But it's better to use some library for that. E.g.:
+>        - [Js standard API to parse to number according to locale? (StackOverflow)](https://stackoverflow.com/questions/55364947/is-there-any-javascript-standard-api-to-parse-to-number-according-to-locale
+
 ## Other math functions
 
 JavaScript has a built-in [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object which contains a small library of mathematical functions and constants.
