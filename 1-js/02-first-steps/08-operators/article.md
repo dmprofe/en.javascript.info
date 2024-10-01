@@ -4,6 +4,11 @@ We know many operators from school. They are things like addition `+`, multiplic
 
 In this chapter, we’ll start with simple operators, then concentrate on JavaScript-specific aspects, not covered by school arithmetic.
 
+> [!t] t: Operators happen inside expressions or concatenate them
+>
+> - Most (all?) of the operators (in general) happen inside expresions: they
+>   evaluate producing a result, and they may be combined/concatenated.
+
 ## Terms: "unary", "binary", "operand"
 
 Before we move on, let's grasp some common terminology.
@@ -28,6 +33,11 @@ Before we move on, let's grasp some common terminology.
 
     Formally, in the examples above we have two different operators that share the same symbol: the negation operator, a unary operator that reverses the sign, and the subtraction operator, a binary operator that subtracts one number from another.
 
+> [!t] t: There are also "ternary" operators
+>
+> - In fact "ternary operator" is a common name of the "conditional operator"
+>   (`...?...:...`), that we will see later in the course.
+
 ## Maths
 
 The following math operations are supported:
@@ -38,6 +48,8 @@ The following math operations are supported:
 - Division `/`,
 - Remainder `%`,
 - Exponentiation `**`.
+
+> [!t] t: `**` works only on modern ES. Compatible alternative: `Math.pow()`.
 
 The first four are straightforward, while `%` and `**` need a few words about them.
 
@@ -190,7 +202,38 @@ Parentheses override any precedence, so if we're not satisfied with the default 
 
 There are many operators in JavaScript. Every operator has a corresponding precedence number. The one with the larger number executes first. If the precedence is the same, the execution order is from left to right.
 
+> [!t] t: "same precedence, execution left to right" is **wrong**
+>
+> - See details in the
+>   [table of operators precedence in MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table)
+>   (and keep that table at hand).
+> - For some operators (minority, but some), it is right to left:
+>   - Exponentiation `**`
+>   - Assignment `=`
+>   - Ternary `? :`
+>   - Arrow function `=>`
+> - And some different operators may have same priority when mixed at the
+>   same level.
+> - All this is hard. Life's hard.
+
 Here's an extract from the [precedence table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence) (you don't need to remember this, but note that unary operators are higher than corresponding binary ones):
+
+> [!t] t: "you don’t need to remember this"
+>
+> - It becomes quite difficult...
+> - But the more you know, the more you will correctly read when no
+>   parentheses are used by others...
+> - And the less redundant parentheses you will need to put in your code. But...
+> - Not all your readers will be as proficient with this as you. You
+>   shouldn't write only for n00bs, but neither only for l337 H4x0rs... A reasonable compromise may be good here. Readability is important.
+> - Bugs difficult to find may occur when we remove parenthesis "beyond our
+>   means" (and precedence is not always intuitive).
+> - So, in doubt:
+>   - When writing, better put too many parenthesis than too few (but don't
+>     go crazy).
+>   - When reading alien code, confirm if needed if your assumptions are
+>     correct (revise the precedence table, and/or put temporarily more
+>     parenthesis to check that the result is the same).
 
 | Precedence | Name | Sign |
 |------------|------|------|
@@ -212,6 +255,23 @@ As we can see, the "unary plus" has a priority of `14` which is higher than the 
 
 Let's note that an assignment `=` is also an operator. It is listed in the precedence table with the very low priority of `2`.
 
+> [!t] t: "= is also an operator"
+>
+> - I.e. `=` **produces an expression**.
+> - But `let` is a pure statement, **does not produce an expression**.
+>
+>   ```js
+>   // Error!:
+>   alert(let a=3);
+>   // Error!:
+>   alert(let a=3;);
+>   // But this does work:
+>   let a;
+>   alert(a=3);
+>   // And sets the value besides returning it:
+>   alert(a);
+>   ```
+
 That's why, when we assign a variable, like `x = 2 * 2 + 1`, the calculations are done first and then the `=` is evaluated, storing the result in `x`.
 
 ```js
@@ -219,6 +279,11 @@ let x = 2 * 2 + 1;
 
 alert( x ); // 5
 ```
+
+> [!t] t: "`=` is evaluated", but right to left
+>
+> - As we mentioned above.
+> - E.g.: `x = y = 2 + 1;` (see also section below)
 
 ### Assignment = returns a value
 
@@ -296,6 +361,25 @@ n *= 2; // now n = 14 (same as n = n * 2)
 
 alert( n ); // 14
 ```
+
+> [!t] t: Warning
+>
+> - Even if e.g. `+=` is an operator (produces an expression), it cannot be
+>   used if the variable is not already defined/set with something.
+> - So this doesn't work:
+>
+>   ```js
+>   // Error!:
+>   let a+=3;
+>   ```
+>
+> - But this "works" (although possibly not nice):
+>
+>   ```js
+>   let a;
+>   a+=3;
+>   // Gives NaN: adding 3 to "undefined".
+>   ```
 
 Short "modify-and-assign" operators exist for all arithmetical and bitwise operators: `/=`, `-=`, etc.
 

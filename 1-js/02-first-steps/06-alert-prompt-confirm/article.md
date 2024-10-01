@@ -14,6 +14,11 @@ alert("Hello");
 
 The mini-window with the message is called a *modal window*. The word "modal" means that the visitor can't interact with the rest of the page, press other buttons, etc, until they have dealt with the window. In this case -- until they press "OK".
 
+> [!t] t: Don't abuse modals
+>
+> Modals (be them be alerts or not), in real applications increase annoyance
+> to the user, even if it makes your life easier as programmer.
+
 ## prompt
 
 The function `prompt` accepts two arguments:
@@ -37,6 +42,8 @@ The square brackets around `default` in the syntax above denote that the paramet
 The visitor can type something in the prompt input field and press OK. Then we get that text in the `result`. Or they can cancel the input by pressing Cancel or hitting the `key:Esc` key, then we get `null` as the `result`.
 
 The call to `prompt` returns the text from the input field or `null` if the input was canceled.
+
+> [!t] t: If user presses "OK" without writing anything: empty string.
 
 For instance:
 
@@ -103,3 +110,12 @@ There are two limitations shared by all the methods above:
 2. The exact look of the window also depends on the browser. We can't modify it.
 
 That is the price for simplicity. There are other ways to show nicer windows and richer interaction with the visitor, but if "bells and whistles" do not matter much, these methods work just fine.
+
+> [!t] t: Not a good practice
+>
+> - We will use alert/prompt/confirm in the course for interaction in our
+>   demos and prototypes, but they are not modern good practices for
+>   production code.
+> - They are blocking/annoying. For showing messages on quick learning code
+>   examples and tests, consider using `console.log()` instead of `alert()`
+>   (and besides it also works on `node` runtime).

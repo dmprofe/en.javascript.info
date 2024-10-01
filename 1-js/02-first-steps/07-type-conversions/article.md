@@ -12,6 +12,19 @@ In this chapter, we won't cover objects. For now, we'll just be talking about pr
 Later, after we learn about objects, in the chapter <info:object-toprimitive> we'll see how objects fit in.
 ```
 
+> [!t] t: More on type conversions
+>
+> - "automatic" = implicit
+> - "explicit" = indicated by the programmer with some syntax.
+> - type conversion synonyms: (type) casting, (type) cohercion
+>   - Note:
+>     [type coertion in MDN glossary](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion)
+>     says that coercion is only the implicit one. The
+>     [type coercion in WP](https://en.wikipedia.org/wiki/Type_conversion)
+>     does not make this restriction.
+> - Conversions (implicit and the need for explicit) may give many headaches
+>   in programming: you better learn about them (and even so they may byte you).
+
 ## String Conversion
 
 String conversion happens when we need the string form of a value.
@@ -31,6 +44,13 @@ alert(typeof value); // string
 ```
 
 String conversion is mostly obvious. A `false` becomes `"false"`, `null` becomes `"null"`, etc.
+
+> [!t] t: Also in concatenation
+>
+> - Conversion to string also happens when using "+" and one of the operands
+>   is string: concatenation.
+> - E.g.: `"a"+2`, but also `"12"+2`
+> - More details in the basic operators article.
 
 ## Numeric Conversion
 
@@ -53,7 +73,37 @@ let num = Number(str); // becomes a number 123
 alert(typeof num); // number
 ```
 
+> [!t] t: Pargin can be more advanced
+>
+> - Parse decimal numbers.
+>   - E.g.: `Number("1.5")`
+>   - Warning: "." is decimal separator in english. If UI is in other locales
+>     (languages): it's more tricky (need for libraries).
+> - Also tries to parse from strings when indicating base or scientific
+>   notation.
+>   - E.g.: `Number("0xa")`, `"4e8"/2`
+>   - We will see later in the course that this is because these are valid
+>     number literal notations (e.g. `let n=0xa`)
+
+> [!t] t: Warning: the "-" is not polysemic as the "+"
+>
+> - It tries to convert to number.
+>   - E.g.: `"12"-2` does not try to "unconcatenate the 2".
+>   - More details in the basic operators article.
+
+> [!t] t: Unary `+`
+>
+> - In the basic operators article, we will see that the unary operator `+` is
+>   a shorter way for `Number()`.
+
 Explicit conversion is usually required when we read a value from a string-based source like a text form but expect a number to be entered.
+
+> [!t] t: Typical cases
+>
+> - Text form from an UI (an HTML web form).
+> - prompt()
+> - Extracted by parsing a text file.
+> - ...
 
 If the string is not a valid number, the result of such a conversion is `NaN`. For instance:
 
@@ -91,10 +141,22 @@ Boolean conversion is the simplest one.
 
 It happens in logical operations (later we'll meet condition tests and other similar things) but can also be performed explicitly with a call to `Boolean(value)`.
 
+> [!t] t: "It happens in logical operations..."
+>
+> - I.e. in if/loop/... clauses.
+> - E.g.: `if (0)`, `while (1)`, ...
+
 The conversion rule:
 
 - Values that are intuitively "empty", like `0`, an empty string, `null`, `undefined`, and `NaN`, become `false`.
 - Other values become `true`.
+
+> [!t] t: "falsy" and "truthy" values
+>
+> - [Falsy values (MDN)](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)
+>   is the generic name for values converted to false (implicity or explicitly).
+> - [Truthy values (MDN)](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)
+>   is the generic name for the rest (the non-falsy values), that are majority.
 
 For instance:
 

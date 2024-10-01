@@ -23,6 +23,11 @@ n = 12.345;
 
 The *number* type represents both integer and floating point numbers.
 
+> [!t] t: This is a key difference of JS with other languages like Java
+>
+> - This "fusion" of integer+float is handy and cool for starting, but
+>   has non trivial drawbacks when code becomes complex.
+
 There are many operations for numbers, e.g. multiplication `*`, division `/`, addition `+`, subtraction `-`, and so on.
 
 Besides regular numbers, there are so-called "special numeric values" which also belong to this data type: `Infinity`, `-Infinity` and `NaN`.
@@ -56,11 +61,29 @@ Besides regular numbers, there are so-called "special numeric values" which also
 
     So, if there's a `NaN` somewhere in a mathematical expression, it propagates to the whole result (there's only one exception to that: `NaN ** 0` is `1`).
 
+> [!t] t: In JS, "NaN" (**not** a number) **is** indeed a number
+>
+> - It is a number, with a "special numeric value".
+> - This nuance is sometimes important.
+
 ```smart header="Mathematical operations are safe"
 Doing maths is "safe" in JavaScript. We can do anything: divide by zero, treat non-numeric strings as numbers, etc.
 
 The script will never stop with a fatal error ("die"). At worst, we'll get `NaN` as the result.
 ```
+
+> [!t] t: It will not crash/die... Good, but...
+>
+> - It's a short term convenience not to be nagged, but errors may pass more
+>   easily hidden and maybe be detected quite late, in production. Not good
+>   at all.
+> - "will never die": never say never. You can make it die with some
+>   Mathematical operations... And for the previous paragraph, in fact you
+>   will be lucky: when programming, you normally want to detect
+>   problems as early as possible in development stages. And for sure
+>   not in production (with 3 billion users and witnesses using your
+>   -broken- software to make your company rich, or with a bunch of doctors
+>   using your -broken- software to do brain surgeries).
 
 Special numeric values formally belong to the "number" type. Of course they are not numbers in the common sense of this word.
 
@@ -133,10 +156,63 @@ alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
 
 The expression inside `${…}` is evaluated and the result becomes a part of the string. We can put anything in there: a variable like `name` or an arithmetical expression like `1 + 2` or something more complex.
 
+> [!t] t: It can be any expression
+>
+> - Another typicall example is the execution of a function, returning a value.
+> - Or it can contain other template literals nested:
+>
+>   ```js
+>   alert(`a ${`b ${`c`} d`} e`); // Output?
+>   ```
+>
+> - Or any combination. Any expression (or series of expressions) can go
+>   inside the `${...}`.
+> - The same applies e.g. for what we put on the right of a `=`
+>   assignment, or as a function parameter, or at an if or loop guard, or
+>   at many other places that accept an expression: they all accept an
+>   (arbitrarily complex) expression.
+> - So it is very good to know what can be an expression in JS (and what
+>   cannot be).
+> - Specially since functional programming style and many programmers use
+>   extensively complex expressions: we need at least this to understand the
+>   code.
+
 Please note that this can only be done in backticks. Other quotes don't have this embedding functionality!
 ```js run
 alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do nothing)
 ```
+
+> [!t] t: Backticks \`...\` are called "template literal".
+>
+> - Good to know this technical name.
+> - ES6+.
+> - Also it allows normal newlines inside, contrary to the other two string
+>   notations. In the other notations, you can specify a newline with "\n".
+
+> [!t] t: Other JS literals
+>
+> - There are many JS literals producing primitives (we see them in this
+>   chapter, but now I'm showing their **technical names**):
+>   - string literals (`'...' ` and `"..."` and templete literals \``...`\`):
+>     - Specification of a particular strings with single and double quotes.
+>     - We will see details on escaping, inserting more special characters,
+>       inserting unicode, ...
+>   - numeric literals:
+>     - Specification of a particular number or bigint.
+>     - We will see that they can be expressed in different ways (e.g. different
+>       bases, with scientific notation, ...).
+>   - boolean literal: `true` or `false`.
+>   - null literal: `null`.
+> - Other JS literals, not producing primitives (we will see them later in the
+>   course):
+>   - object literal (`{...}`) and array literal (`[...]`):
+>     - Permit specifying directly an object or an array.
+>     - Not many languages provide this for creating objects.
+>   - regular expression literal (`/.../`):
+>     - Produces directly an object of the class RegExp.
+> - All these literals are the powerful JS "literal notation", also the basis
+>   of the ubiquous JSON format (JSON stands for JS Object Notation... since
+>   almost everything in JS ends up being an Object).
 
 We'll cover strings more thoroughly in the chapter <info:string>.
 
@@ -168,6 +244,16 @@ alert( isGreater ); // true (the comparison result is "yes")
 ```
 
 We'll cover booleans more deeply in the chapter <info:logical-operators>.
+
+> [!t] t: If it's boolean, use a boolean for good
+>
+> - Please use a boolean when something is semantically a boolean.
+> - Use `true` and `false` (reserved words), and **not** `"true"` and
+>   `"false"` (strings... and JS will not complain, remember that it is
+>   dinamically typed).
+> - And for sure don't use for a semantic boolean something like `"yes"` and
+>   `"no"`, or `"si"` and `"no"`. The way it is showed later (if needed) to a
+>   human end users should not contaminate all your code.
 
 ## The "null" value
 
@@ -212,6 +298,12 @@ alert(age); // "undefined"
 
 ...But we don't recommend doing that. Normally, one uses `null` to assign an "empty" or "unknown" value to a variable, while `undefined` is reserved as a default initial value for unassigned things.
 
+> [!t] t: null or undefined?
+>
+> - Nuance between "null" and "undefined" is tricky. Stick to the good advice:
+>   - Leave "undefined" for something not put by the programmer.
+>   - "null" is something at some point explicitly placed by a programmer.
+
 ## Objects and Symbols
 
 The `object` type is special.
@@ -219,6 +311,18 @@ The `object` type is special.
 All other types are called "primitive" because their values can contain only a single thing (be it a string or a number or whatever). In contrast, objects are used to store collections of data and more complex entities.
 
 Being that important, objects deserve a special treatment. We'll deal with them later in the chapter <info:object>, after we learn more about primitives.
+
+> [!t] t: And the arrays?
+>
+> - They are no mentioned here since In JS, they are a sub-type of objects.
+>   `typeof` (see next section) on them returns `"object"`
+> - Some say that in JS everything are objects:
+>   - The primitive types in JS (except null and undefined) have also "object
+>     wrappers".
+>     - E.g.  methods for a string or for a number.
+>     - One can test this by using completion in the console.
+>   - But be careful: primitives (even with their "object wrapper") behave
+>     very differently non primitives. It is critical to distinguish them.
 
 The `symbol` type is used to create unique identifiers for objects. We have to mention it here for the sake of completeness, but also postpone the details till we know objects.
 
@@ -259,6 +363,23 @@ The last three lines may need additional explanation:
 1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here, it serves just as an example of an object.
 2. The result of `typeof null` is `"object"`. That's an officially recognized error in `typeof`, coming from very early days of JavaScript and kept for compatibility. Definitely, `null` is not an object. It is a special value with a separate type of its own. The behavior of `typeof` is wrong here.
 3. The result of `typeof alert` is `"function"`, because `alert` is a function. We'll study functions in the next chapters where we'll also see that there's no special "function" type in JavaScript. Functions belong to the object type. But `typeof` treats them differently, returning `"function"`. That also comes from the early days of JavaScript. Technically, such behavior isn't correct, but can be convenient in practice.
+
+> [!t] t: Some other interesting typeof examples
+>
+> ```js
+> typeof typeof 0 // "string": typeof returns a string describing the type
+> typeof undefined // "undefined"
+> typeof NaN // "number"
+> typeof '' // "string" (empty string: not undefined, not null, ...)
+> typeof "" // The same
+> ```
+>
+> - So when typeof returns "object", it is not conclusive.
+> - When it returns a different thing, it is more conclusive.
+>   - Except for NaN that is a number: if we want to differentiate it, we
+>     will see there is a way.
+> - There are (sophisticated) ways to overcome the limitation that too many
+>   things return "object" when applying "typeof".
 
 ```smart header="The `typeof(x)` syntax"
 You may also come across another syntax: `typeof(x)`. It's the same as `typeof x`.

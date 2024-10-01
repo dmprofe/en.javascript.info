@@ -40,6 +40,18 @@ You can run the example by clicking the "Play" button in the right-top corner of
 
 The `<script>` tag contains JavaScript code which is automatically executed when the browser processes the tag.
 
+> [!t] t: alert() is bad practice, but forgiven here
+>
+> - js.info uses the straighforward `alert()` a lot. We will use them happily
+>   for immediateness in learning.
+> - But keep in mind that in real world web pages, it isn't currently a good
+>   practice to use them (for reasons not mentioned here).
+> - Instead of `alert()` (blocking and tied to the browser environment),
+>   we can use `console.log()` (permits also executing in node most of the
+>   examples of the Part I of jsinfo on JS language).
+> - Besides `alert()` and `console.log()`, another typical JS "Hello world"
+>   for browser is to do some DOM manipulation (using e.g. `textContent`
+>   property).
 
 ## Modern markup
 
@@ -81,6 +93,14 @@ We can give a full URL as well. For instance:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
 ```
 
+> [!t] t: Possible URL's
+>
+> - When loading external JS file (script element with src attribute),
+>   we can use any type of valid URL there that resolves to the file:
+>   as seen in these examples it can be absolute (with possible implicit
+>   parts), but it can also be relative.
+> - We cover elsewhere the details on possible URLs and their resolution.
+
 To attach several scripts, use multiple tags:
 
 ```html
@@ -121,6 +141,58 @@ The example above can be split into two scripts to work:
 </script>
 ```
 ````
+
+> [!t] t: 3 ways of adding JS to HTML
+>
+> There are [3 ways of adding JS to your page (from MDN Learn)](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript#how_do_you_add_javascript_to_your_page).
+> Thir names are:
+> - **External JS**: external .js file loaded with a script element (src
+>   attribute).
+> - **Internal JS**: JS specified as contents of a script element.
+> - **Inline JS -handlers-**: JS specified as the value of some particular
+>   attributes on different HTML elements.
+>   - E.g.:
+>
+>     ```html
+>     <button onclick="alert('Hi!');">Click to greet</button>
+>     ```
+>
+>   - This possibility is not mentioned by jsinfo: it is a bad practice, but
+>     you may see this used in bad or old code. Do not confuse it with modern
+>     FE frameworks that tend to specify HTML+CSS+JS as componentes,
+>     all-in-one place (e.g. with the JS extension named JSX). If done that
+>     way, it is a modern good practice.
+
+> [!t] t: Single shared global scope by default:
+> - For now: no matter how you load JS code of the 3 ways, the code sees and
+>   shares a unique global scope.
+> - This is for good (quick and dirty), and for bad (not scaling).
+> - It can be avoided with some techniques. The modern one is with ES6 modules
+>   specified somehow with the "type" attribute, as mentioned in section above
+>   "Modern markup".
+
+> [!t] t: Quotes and double quotes in JS. Equivalent, but... Consistency?
+> - In this Hello wolrd page in jsinfo, you will see examples of strings
+>   using 'single quotes' and others using "double quotes".
+> - Other languages allow only one of the two ways, or reserve a different
+>   meaning for them. But in JS, they are equivalent.
+> - I would recommend to choose a convention between the two, and stick to
+>   it for consistency.
+>   - If you are collaborating in a project, just follow the convention
+>     specified by their chosen (programming) style guide. If not known,
+>     just follow the convention you see used (or more used) in its
+>     codebase.
+>   - If it is our own code, you can choose your convention:
+>     - Double quotes: are typically more familiar when you come from other
+>       languages. Also JSON does not allow single quotes, so when writing
+>       directly JSON, you don't have to change your mindset.
+>     - Single quotes: are maybe more popular in JS world.
+>   - You may use the alternate one as an exception for the convenience of
+>     avoid escaping possible included quotes in the text.
+> - In ES6+, there is a third option with nuances, the \`backticks\`, that
+>   we will cover later in the course.
+> - jsinfo is absolutely inconsistent in its use of single vs double quotes
+>   (as you will see all over the course). Do not imitate this.
 
 ## Summary
 

@@ -82,8 +82,45 @@ Modern JavaScript supports "classes" and "modules" - advanced language structure
 
 **So, for now `"use strict";` is a welcome guest at the top of your scripts. Later, when your code is all in classes and modules, you may omit it.**
 
+> [!t] t: JS backwards compatibility:
+>
+> - JS really tries hard to mantain backwards compatibility.
+> - Things are added to the language/environments, but it tries that any old
+>   code still works on a modern engine.
+> - If you add a new syntax, this makes no problem: the old code will have
+>   never used this.
+> - But the changes that occur with "use strict" are changes of behavior of
+>   the **same code**. This is why this had to be marked for the engines.
+> - Since strict mode is better for new code, they enabled this mode by default
+>   on new contexts incorporated later to the language (classes and modules).
+>   Also, many bundlers (webpack, rollup, ...) may by default insert it in
+>   our code when "bundling it".
+
 As of now, we've got to know about `use strict` in general.
 
 In the next chapters, as we learn language features, we'll see the differences between the strict and old modes. Luckily, there aren't many and they actually make our lives better.
 
 All examples in this tutorial assume strict mode unless (very rarely) specified otherwise.
+
+> [!t] t: "Should we “use strict”?": Sure! But we may forget!
+> 
+> - **"All examples in this tutorial assume strict mode unless (very rarely)
+>   specified otherwhise"**
+>   - That means that when we do any test in a `.js` file or inside a
+>     `<script>` tag, we **should also remember ourselves** to place
+>     `'use strict';` at the start.
+>   - When I forget this in this course: **please help me** (warn me)!
+>   - You can make quicker the insertion of this by
+>     [adding a custom JS snippet to vscode](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_create-your-own-snippets).
+>     In particular:
+>
+>     ```json
+>     "Use strict mode": {
+>       "prefix": "use",
+>       // Assuming single quote and semicolon style guide:
+>       "body": [ "'use strict';" ]
+>     } // Place a "," here if not the last snippet.
+>     ```
+>
+>     Then, by writing `use{Tab}` in a JS context, it will expand to
+>     `'use strict';`.
