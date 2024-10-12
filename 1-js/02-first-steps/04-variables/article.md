@@ -186,20 +186,20 @@ Though it may seem a little odd at first sight, these languages are quite capabl
 
 > [!t] t: Functional programming on non pure functional languages:
 >
-  - Why does jsinfo talk about strange "functional languages"?
-  - It is because there is a huge trend in some "non pure functional
-    languages" (like JS and others) to use them increasingly in a
-    "functional way": that is restrict oneself to (or favoring) the ways of
-    doing things in that way.
-  - This has been increasingly adopted since ES6 and in the way that many JS
-    frameworks and libraries work and are used.
-  - Forbiding changing variable values is only one of the typical aspects of
-    functional programming. There are many others, that we will address
-    during this course.
-  - When comming from "classical" languages, it may get some time to be used
-    to this programming style. But it has some benefits. And in any case,
-    **many people** program nowadays in this way, so we'd better be able
-    *understand their code!
+> - Why does jsinfo talk about strange "functional languages"?
+> - It is because there is a huge trend in some "non pure functional
+>   languages" (like JS and others) to use them increasingly in a
+>   "functional way": that is restrict oneself to (or favoring) the ways of
+>   doing things in that way.
+> - This has been increasingly adopted since ES6 and in the way that many JS
+>   frameworks and libraries work and are used.
+> - Forbiding changing variable values is only one of the typical aspects of
+>   functional programming. There are many others, that we will address
+>   during this course.
+> - When comming from "classical" languages, it may get some time to be used
+>   to this programming style. But it has some benefits. And in any case,
+>   **many people** program nowadays in this way, so we'd better be able
+>   *understand their code!
 
 ## Variable naming [#variable-naming]
 

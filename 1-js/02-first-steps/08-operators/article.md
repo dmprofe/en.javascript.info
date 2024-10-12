@@ -202,38 +202,29 @@ Parentheses override any precedence, so if we're not satisfied with the default 
 
 There are many operators in JavaScript. Every operator has a corresponding precedence number. The one with the larger number executes first. If the precedence is the same, the execution order is from left to right.
 
-> [!t] t: "same precedence, execution left to right" is **wrong**
->
-> - See details in the
->   [table of operators precedence in MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table)
->   (and keep that table at hand).
-> - For some operators (minority, but some), it is right to left:
->   - Exponentiation `**`
->   - Assignment `=`
->   - Ternary `? :`
->   - Arrow function `=>`
-> - And some different operators may have same priority when mixed at the
->   same level.
-> - All this is hard. Life's hard.
+> [!t] t: Wrong: for some operators it is right to left (see below).
 
 Here's an extract from the [precedence table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence) (you don't need to remember this, but note that unary operators are higher than corresponding binary ones):
 
 > [!t] t: "you don’t need to remember this"
->
-> - It becomes quite difficult...
-> - But the more you know, the more you will correctly read when no
->   parentheses are used by others...
-> - And the less redundant parentheses you will need to put in your code. But...
-> - Not all your readers will be as proficient with this as you. You
->   shouldn't write only for n00bs, but neither only for l337 H4x0rs... A reasonable compromise may be good here. Readability is important.
-> - Bugs difficult to find may occur when we remove parenthesis "beyond our
->   means" (and precedence is not always intuitive).
-> - So, in doubt:
->   - When writing, better put too many parenthesis than too few (but don't
->     go crazy).
->   - When reading alien code, confirm if needed if your assumptions are
->     correct (revise the precedence table, and/or put temporarily more
->     parenthesis to check that the result is the same).
+>   - But the more you know, the more you will correctly read when no
+>     parentheses are used by others...
+>   - And the less redundant parentheses you will need to put in your code. But...
+>   - Not all your readers will be as proficient with this as you. You
+>     shouldn't write only for noobs, but neither only for elite
+>     hackers... A reasonable compromise may be good here. Readability
+>     is important.
+>   - Bugs difficult to find may occur when we remove parenthesis or do
+>     complex expressions "beyond our means" (as precedence is not
+>     always intuitive).
+>   - So, in doubt:
+>     - When writing, better put too many parenthesis than too few (but don't
+>       go crazy). An you can use intermediate steps with intermediate
+>       variables to make things clearer.
+>     - When reading alien code, confirm if needed if your assumptions are
+>       correct (revise the precedence table, and/or put temporarily more
+>       parenthesis and/or use intermediate steps/variables to check
+>       that the result is the same).
 
 | Precedence | Name | Sign |
 |------------|------|------|
@@ -250,6 +241,348 @@ Here's an extract from the [precedence table](https://developer.mozilla.org/en-U
 | ... | ... | ... |
 
 As we can see, the "unary plus" has a priority of `14` which is higher than the `11` of "addition" (binary plus). That's why, in the expression `"+apples + +oranges"`, unary pluses work before the addition.
+
+> [!t] t: Full operator precedence table from MDN
+>
+> The "precedence table" article linked above has before the table a
+> very pegagogic explanation about operators precedence.
+>
+> The full table does an spoiler of things we will see later in the
+> course, but this is a good place to have it.
+>
+> I'm transcribing next the full section regarding the precedence table,
+> in order to have it here at hand:
+>
+> ### Table
+>
+> The following table lists operators in order from highest precedence (18) to lowest precedence (1).
+>
+> Several general notes about the table:
+>
+> 1. Not all syntax included here are "operators" in the strict sense. For example, spread `...` and arrow `=>` are typically not regarded as operators. However, we still included them to show how tightly they bind compared to other operators/expressions.
+> 2. Some operators have certain operands that require expressions narrower than those produced by higher-precedence operators. For example, the right-hand side of member access `.` (precedence 17) must be an identifier instead of a grouped expression. The left-hand side of arrow `=>` (precedence 2) must be an arguments list or a single identifier instead of some random expression.
+> 3. Some operators have certain operands that accept expressions wider than those produced by higher-precedence operators. For example, the bracket-enclosed expression of bracket notation `[ … ]` (precedence 17) can be any expression, even comma (precedence 1) joined ones. These operators act as if that operand is "automatically grouped". In this case we will omit the associativity.
+>
+> <table>
+>   <tbody>
+>     <tr>
+>       <th>Precedence</th>
+>       <th>Associativity</th>
+>       <th>Individual operators</th>
+>       <th>Notes</th>
+>     </tr>
+>     <tr>
+>       <td>18: grouping</td>
+>       <td>n/a</td>
+>       <td>Grouping<br><code>(x)</code></td>
+>       <td>[1]</td>
+>     </tr>
+>     <tr>
+>       <td rowspan="6">17: access and call</td>
+>       <td rowspan="2">left-to-right</td>
+>       <td>Member access (dot notation)<br><code>x.y</code></td>
+>       <td rowspan="2">[2]</td>
+>     </tr>
+>     <tr>
+>       <td>Optional chaining<br><code>x?.y</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="4">n/a</td>
+>       <td>Computed member access (bracket notation)<br><code>x[y]</code></td>
+>       <td>[3]</td>
+>     </tr>
+>     <tr>
+>       <td>new<br><code>new x(y)</code></td>
+>       <td rowspan="3">[4]</td>
+>     </tr>
+>     <tr>
+>       <td>Function call<br><code>x(y)</code></td>
+>     </tr>
+>     <tr>
+>       <td>import(x)</td>
+>     </tr>
+>     <tr>
+>       <td>16: new</td>
+>       <td>n/a</td>
+>       <td>new without argument list<br><code>new x</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="2">15: postfix operators</td>
+>       <td rowspan="2">n/a</td>
+>       <td>Postfix increment<br><code>x++</code></td>
+>       <td rowspan="2">[5]</td>
+>     </tr>
+>     <tr>
+>       <td>Postfix decrement<br><code>x--</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="10">14: prefix operators</td>
+>       <td rowspan="10">n/a</td>
+>       <td>Prefix increment<br><code>++x</code></td>
+>       <td rowspan="2">[6]</td>
+>     </tr>
+>     <tr>
+>       <td>Prefix decrement<br><code>--x</code></td>
+>     </tr>
+>     <tr>
+>       <td>Logical NOT<br><code>!x</code></td>
+>     </tr>
+>     <tr>
+>       <td>Bitwise NOT<br><code>~x</code></td>
+>     </tr>
+>     <tr>
+>       <td>Unary plus<br><code>+x</code></td>
+>     </tr>
+>     <tr>
+>       <td>Unary negation<br><code>-x</code></td>
+>     </tr>
+>     <tr>
+>       <td>typeof x</td>
+>     </tr>
+>     <tr>
+>       <td>void x</td>
+>     </tr>
+>     <tr>
+>       <td>delete x</td>
+>       <td>[7]</td>
+>     </tr>
+>     <tr>
+>       <td>await x</td>
+>     </tr>
+>     <tr>
+>       <td>13: exponentiation</td>
+>       <td>right-to-left</td>
+>       <td>Exponentiation<br><code>x ** y</code></td>
+>       <td>[8]</td>
+>     </tr>
+>     <tr>
+>       <td rowspan="3">12: multiplicative operators</td>
+>       <td rowspan="3">left-to-right</td>
+>       <td>Multiplication<br><code>x * y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Division<br><code>x / y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Remainder<br><code>x % y</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="2">11: additive operators</td>
+>       <td rowspan="2">left-to-right</td>
+>       <td>Addition<br><code>x + y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Subtraction<br><code>x - y</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="3">10: bitwise shift</td>
+>       <td rowspan="3">left-to-right</td>
+>       <td>Left shift<br><code>x &#x3C;&#x3C; y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Right shift<br><code>x >> y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Unsigned right shift<br><code>x >>> y</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="6">9: relational operators</td>
+>       <td rowspan="6">left-to-right</td>
+>       <td>Less than<br><code>x &#x3C; y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Less than or equal<br><code>x &#x3C;= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Greater than<br><code>x > y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Greater than or equal<br><code>x >= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>x in y</td>
+>     </tr>
+>     <tr>
+>       <td>x instanceof y</td>
+>     </tr>
+>     <tr>
+>       <td rowspan="4">8: equality operators</td>
+>       <td rowspan="4">left-to-right</td>
+>       <td>Equality<br><code>x == y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Inequality<br><code>x != y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Strict equality<br><code>x === y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Strict inequality<br><code>x !== y</code></td>
+>     </tr>
+>     <tr>
+>       <td>7: bitwise AND</td>
+>       <td>left-to-right</td>
+>       <td>Bitwise AND<br><code>x &#x26; y</code></td>
+>     </tr>
+>     <tr>
+>       <td>6: bitwise XOR</td>
+>       <td>left-to-right</td>
+>       <td>Bitwise XOR<br><code>x ^ y</code></td>
+>     </tr>
+>     <tr>
+>       <td>5: bitwise OR</td>
+>       <td>left-to-right</td>
+>       <td>Bitwise OR<br><code>x | y</code></td>
+>     </tr>
+>     <tr>
+>       <td>4: logical AND</td>
+>       <td>left-to-right</td>
+>       <td>Logical AND<br><code>x &#x26;&#x26; y</code></td>
+>     </tr>
+>     <tr>
+>       <td rowspan="2">3: logical OR, nullish coalescing</td>
+>       <td rowspan="2">left-to-right</td>
+>       <td>Logical OR<br><code>x || y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Nullish coalescing operator<br><code>x ?? y</code></td>
+>       <td>[9]</td>
+>     </tr>
+>     <tr>
+>       <td rowspan="21">2: assignment and miscellaneous</td>
+>       <td rowspan="16">right-to-left</td>
+>       <td>Assignment<br><code>x = y</code></td>
+>       <td rowspan="16">[10]</td>
+>     </tr>
+>     <tr>
+>       <td>Addition assignment<br><code>x += y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Subtraction assignment<br><code>x -= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Exponentiation assignment<br><code>x **= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Multiplication assignment<br><code>x *= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Division assignment<br><code>x /= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Remainder assignment<br><code>x %= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Left shift assignment<br><code>x &#x3C;&#x3C;= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Right shift assignment<br><code>x >>= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Unsigned right shift assignment<br><code>x >>>= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Bitwise AND assignment<br><code>x &#x26;= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Bitwise XOR assignment<br><code>x ^= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Bitwise OR assignment<br><code>x |= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Logical AND assignment<br><code>x &#x26;&#x26;= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Logical OR assignment<br><code>x ||= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>Nullish coalescing assignment<br><code>x ??= y</code></td>
+>     </tr>
+>     <tr>
+>       <td>right-to-left</td>
+>       <td>Conditional (ternary) operator<br><code>x ? y : z</code></td>
+>       <td>[11]</td>
+>     </tr>
+>     <tr>
+>       <td>right-to-left</td>
+>       <td>Arrow<br><code>x => y</code></td>
+>       <td>[12]</td>
+>     </tr>
+>     <tr>
+>       <td rowspan="3">n/a</td>
+>       <td>yield x</td>
+>     </tr>
+>     <tr>
+>       <td>yield* x</td>
+>     </tr>
+>     <tr>
+>       <td>Spread<br><code>...x</code></td>
+>       <td>[13]</td>
+>     </tr>
+>     <tr>
+>       <td>1: comma</td>
+>       <td>left-to-right</td>
+>       <td>Comma operator<br><code>x, y</code></td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> Notes:
+>
+> 1. The operand can be any expression.
+> 2. The "right-hand side" must be an identifier.
+> 3. The "right-hand side" can be any expression.
+> 4. The "right-hand side" is a comma-separated list of any expression with precedence > 1 (i.e. not comma expressions). The constructor of a `new` expression cannot be an optional chain.
+> 5. The operand must be a valid assignment target (identifier or property access). Its precedence means `new Foo++` is `(new Foo)++` (a syntax error) and not `new (Foo++)` (a TypeError: (Foo++) is not a constructor).
+> 6. The operand must be a valid assignment target (identifier or property access).
+> 7. The operand cannot be an identifier or a [private property](/en-US/docs/Web/JavaScript/Reference/Classes/Private_properties) access.
+> 8. The left-hand side cannot have precedence 14.
+> 9. The operands cannot be a logical OR `||` or logical AND `&&` operator without grouping.
+> 10. The "left-hand side" must be a valid assignment target (identifier or property access).
+> 11. The associativity means the two expressions after `?` are implicitly grouped.
+> 12. The "left-hand side" is a single identifier or a parenthesized parameter list.
+> 13. Only valid inside object literals, array literals, or argument lists.
+>
+> The precedence of groups 17 and 16 may be a bit ambiguous. Here are a few examples to clarify.
+>
+> - Optional chaining is always substitutable for its respective syntax without optionality (barring a few special cases where optional chaining is forbidden). For example, any place that accepts `a?.b` also accepts `a.b` and vice versa, and similarly for `a?.()`, `a()`, etc.
+> - Member expressions and computed member expressions are always substitutable for each other.
+> - Call expressions and `import()` expressions are always substitutable for each other.
+> - This leaves four classes of expressions: member access, `new` with arguments, function call, and `new` without arguments.
+>   - The "left-hand side" of a member access can be: a member access (`a.b.c`), `new` with arguments (`new a().b`), and function call (`a().b`).
+>   - The "left-hand side" of `new` with arguments can be: a member access (`new a.b()`) and `new` with arguments (`new new a()()`).
+>   - The "left-hand side" of a function call can be: a member access (`a.b()`), `new` with arguments (`new a()()`), and function call (`a()()`).
+>   - The operand of `new` without arguments can be: a member access (`new a.b`), `new` with arguments (`new new a()`), and `new` without arguments (`new new a`).
+>
+
+> [!t] t: Summary of operators precedence
+>
+> - I'm omiting here some less used operators, to make a summary.
+> - Evaluation order:
+>   - Most are left to right (or n/a).
+>   - I note only the exceptions.
+> - From higher to lower priority:
+>   - Grouping (parentheses)
+>   - Object members and function calls.
+>   - Most unary operators:
+>     - Postfix
+>     - Prefix
+>   - Mathematical:
+>     - `**` (**right to left**)
+>     - `*`, `/`, `%`
+>     - `+`, `-`
+>   - Relations: `<`, `>`, etc
+>   - Equality/inequality: `===`, `!==`, etc
+>   - Logical:
+>     - OR: `||`
+>     - AND: `&&`
+>   - Assignments (`=`, `+=`, etc), ternary `? : `, arrow `=>`,
+>     spread `...x` (all these are **right to left**)
+>   - Comma (concatenation): `, `
+> - Different operators can be at the same priority level,
+>   so when mixed at the same level they have the same strength,
+>   and their evaluation order wins there.
 
 ## Assignment
 

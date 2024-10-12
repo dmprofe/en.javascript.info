@@ -185,6 +185,36 @@ let accessAllowed = age > 18;
 ```
 ````
 
+> [!t] t: Conditional operator is expression equivalent of if statement
+>
+> - jsinfo talks about a particular use case for the conditional
+>   operator:
+>
+>   "we need to assign a variable depending on a condition."
+>
+> - But we can generalize this to "generate an expression depending
+>   on a condition". That is: it is used when a condition is made to
+>   obtain a result (conditionally), and we want to use (chain)
+>   elsewhere this result. This result can be assigned to a variable
+>   (as with any expression), but can also be used wherever an
+>   expression fits.
+> - E.g. it can be used directly as a function parameter:
+>
+>   ```js
+>   console.log( (age < 18) ? "under-age" : "adult" );
+>   ```
+>
+> - Or it can be used to be combined as any operand for any more complex
+>   expression:
+>
+>   ```js
+>   totalPrice = price + ( premium ? 0 : shippingCosts );
+>   ```
+>
+> - We will see other ways of doing things with expressions instead of
+>   with statements. This is an aspect of functionnal programming, that
+>   is a trendy way of programming JS that we should we get used to.
+
 ## Multiple '?'
 
 A sequence of question mark operators `?` can return a value that depends on more than one condition.
@@ -260,3 +290,16 @@ if (company == 'Netscape') {
 Our eyes scan the code vertically. Code blocks which span several lines are easier to understand than a long, horizontal instruction set.
 
 The purpose of the question mark operator `?` is to return one value or another depending on its condition. Please use it for exactly that. Use `if` when you need to execute different branches of code.
+
+> [!t] t: I agree, but in this case...
+>
+> - That code could be easily refactored to use a conditional operator
+>   that returns something (so used "correctly" as intended for
+>   conditional operators):
+>
+>   ```js
+>   let company = prompt('Which company created JavaScript?', '');
+>
+>   alert((company == 'Netscape') 'Right!' : 'Wrong.');
+>   ```
+
