@@ -575,8 +575,8 @@ As we can see, the "unary plus" has a priority of `14` which is higher than the 
 >   - Relations: `<`, `>`, etc
 >   - Equality/inequality: `===`, `!==`, etc
 >   - Logical:
->     - OR: `||`
 >     - AND: `&&`
+>     - OR: `||`
 >   - Assignments (`=`, `+=`, etc), ternary `? : `, arrow `=>`,
 >     spread `...x` (all these are **right to left**)
 >   - Comma (concatenation): `, `
