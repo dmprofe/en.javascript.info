@@ -782,4 +782,20 @@ Strings also have methods for doing search/replace with regular expressions. But
 
 > [!t] t: This may deserve a "spoiler alert" introduction for the basics.
 
+> [!t] t: At least, know `str.repace()` and `str.replaceAll()`
+>
+> - Subtitute something (first ocurrence) with a given string (or all
+>   occurences in the second case).
+> - They can be used with first parameter being a regular expressions,
+>   but also with a litteral string (les powerful, but often enough and
+>   quite simple to be used).
+> - Examples:
+>
+>   ```js
+>   let s = "HelLO world";
+>   s.replace("wo","X"); // "HelLO Xrld"
+>   s.replaceAll("l", "XX"); // "HeXXLO worXXd"
+>   s.replace("wor", ""); // "HelLO ld"
+>   ```
+
 Also, as of now it's important to know that strings are based on Unicode encoding, and hence there're issues with comparisons. There's more about Unicode in the chapter <info:unicode>.
