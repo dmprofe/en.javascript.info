@@ -168,7 +168,7 @@ We can also call it without arguments: `arr.slice()` creates a copy of `arr`. Th
 
 The method [arr.concat](mdn:js/Array/concat) creates a new array that includes values from other arrays and additional items.
 
-> [!t]: t: **new array**: arr unaffected (not changed in place)
+>[!t] t: **new array**: arr unaffected (not changed in place)
 
 The syntax is:
 
@@ -263,7 +263,7 @@ And this code is more elaborate about their positions in the target array:
 
 The result of the function (if it returns any) is thrown away and ignored.
 
-> [!t]: arr.forEach is a functional alternative to make loops
+> [!t] t: arr.forEach is a functional alternative to make loops
 >
 > - Made in a single **expression**, makes what is normally done with
 >   for/while **statement**.
@@ -301,7 +301,7 @@ alert( arr.includes(1) ); // true
 
 Please note that `indexOf` uses the strict equality `===` for comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
 
-> [!t]: As always, as a rookie, embrace strict equality (for your own health).
+> [!t] t: As always, as a rookie, embrace strict equality (for your own health).
 
 If we want to check if `item` exists in the array, and don't need the index, then `arr.includes` is preferred.
 
@@ -398,7 +398,7 @@ If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
 
 The syntax is similar to `find`, but `filter` returns an array of all matching elements:
 
-> [!t]: t: **new array**: arr unaffected (not changed in place)
+> [!t] t: **new array**: arr unaffected (not changed in place)
 
 > [!t] t: Again here: not "recursive copy"
 
@@ -434,7 +434,7 @@ The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
 
 It calls the function for each element of the array and returns the array of results.
 
-> [!t]: Creates **new** array (arr not changed).
+> [!t] t: Creates **new** array (arr not changed).
 
 The syntax is:
 
@@ -455,7 +455,7 @@ alert(lengths); // 5,7,6
 
 The call to [arr.sort()](mdn:js/Array/sort) sorts the array *in place*, changing its element order.
 
-> [!t]: This one is **in place** (mutes arr).
+> [!t] t: This one is **in place** (mutes arr).
 >
 > Copy first if we want to preserve the original.
 
@@ -587,7 +587,7 @@ alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,
 
 The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
 
-> [!t]: This one is also **in place** (mutes arr).
+> [!t] t: This one is also **in place** (mutes arr).
 >
 > Copy first if we want to preserve the original.
 

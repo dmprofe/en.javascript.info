@@ -305,7 +305,7 @@ num = 5; // error: num is not defined
 ```
 ````
 
-> [!t]: Once warned...
+> [!t] t: Once warned...
 >
 > - We may want to use undeclared variables for quick tests on the console.
 > - But don't get used to it in your code, or it will byte you.
