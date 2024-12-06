@@ -273,6 +273,72 @@ The result of the function (if it returns any) is thrown away and ignored.
 > - All of these use a callback (often an arrow function) for the "body
 >   of things to do".
 > - This is a very popular programming style in modern JS and frameworks.
+> - The callback function body typically resembles the one of a
+>   "for..of":
+>
+>   ```js
+>   const arr = [5,6,7];
+>   // for..of:
+>   for (const item of arr) { console.log(item); }
+>   // Similar to arr.forEach:
+>   arr.forEach(item => { console.log(item); };
+>   // Both have access to each "item" without need for bracked
+>   // notation nor knowing inside the body the reference to the
+>   // whole array.
+>
+>   // Compare with a normal for:
+>   for (let i=0; i<arr.length) { console.log(arr[i]); }
+>   ```
+>
+> - In a "for..of":
+>   - One cannot do things depending on the position (index): "first",
+>     "last", "odd positions", ...
+>   - The array is "read-only": one cannot affect the array itself (only
+>     if array of non-primitives, one can indirectly affect what is
+>     pointed by the reference of these non-primitives).
+> - However, in an arr.forEach() callback function one can do these
+>   things by using the second and third parameter:
+>
+>   ```js
+>   const arr = [5,6,7];
+>   arr.forEach((item, i, arr) => { console.log(arr[i]); ); };
+>   // Compare with a normal for:
+>   for (let i=0; i<arr.length) { console.log(arr[i]); }
+>   ```
+>
+>   - One can do things in these bodies depending on the index:
+>
+>     `if (i === 0 || i === arr.length) { console.log('frontier'); }`
+>
+>   - And/or affect the array elements themselves, even if primitives:
+>
+>     `arr[i]++;`
+>
+> - So "forEach" combines the two ways of working of a "normal for" and a
+>   "for..of", and the programmer chooses the most convenient one in
+>   each case (or a combination of both).
+>   - Note: to be honest, "for..of" also permits this if using the
+>     "arr.entries()" method:
+>
+>     ```js
+>     const arr = [5,6,7];
+>     // Using destructuring assignment (spoiler of jsinfo LANG5.10):
+>     for (const [i, item] of arr.entries()) { console.log(i, item); }
+>     // Not using it:
+>     for (const entry of arr.entries()) { console.log(entry[0], entry[1]); }
+>     ```
+> - Compared to both for statements ("normal for" and "for..of"):
+>   - We cannot do easily a "break": all elements are traversed and the
+>     callback executed on them.
+>     - Note: to obtain a break-like behaviour, you can use
+>       [`arr.every()` or other workarounds](https://masteringjs.io/tutorials/fundamentals/foreach-break)
+>   - For good, but also for bad, our loop body is encapsulated into a
+>     function, without knowledge of the exterior (unless we use global
+>     variables, which is a typically not recommended way of
+>     programming).
+> - Similar to a "for..of", the traversing order always starts on the
+>   first element, in increasing index order. In a "normal for" one
+>   can easily decide to traverse in the opposite order.
 
 ## Searching in array
 
@@ -342,6 +408,14 @@ let result = arr.find(function(item, index, array) {
   // for falsy scenario returns undefined
 });
 ```
+
+> [!t] t: "for falsy scenario returns undefined" missleading
+>
+> - It refers to: "if non of the calls to the callback function returns
+>   true, arr.find() globally returns undefined.
+> - Note that the callback itself can return a truthy besides a literal
+>   true to indicate "found". And the rest of returned values (falsy),
+>   indicate a not found (yet).
 
 The function is called for elements of the array, one after another:
 
@@ -434,7 +508,7 @@ The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
 
 It calls the function for each element of the array and returns the array of results.
 
-> [!t] t: Creates **new** array (arr not changed).
+> [!t] t: Creates **new** array (arr not changed), with the length
 
 The syntax is:
 
@@ -450,6 +524,13 @@ For instance, here we transform each element into its length:
 let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
 alert(lengths); // 5,7,6
 ```
+
+> [!t] t: other ways to shallow copy (non recursively) an array
+>
+> - We've seen above: `arr.slice()`
+> - One can also use `arr.map(item => item)`
+> - Or we saw for Objects, and also works for arrays: `Object.assign([], arr)`
+> - And we will see the spread operator later in the course: `[...arr]`
 
 ### sort(fn)
 
