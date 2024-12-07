@@ -269,6 +269,67 @@ The ways to misuse an array:
 
 Please think of arrays as special structures to work with the *ordered data*. They provide special methods for that. Arrays are carefully tuned inside JavaScript engines to work with contiguous ordered data, please use them this way. And if you need arbitrary keys, chances are high that you actually require a regular object `{}`.
 
+> [!t] t: sparse arrays
+>
+> Concerning "make holes"... He is talking to what is called "sparse
+> arrays" (arrays with "holes", or even with mostly holes).
+>
+> ```js
+> // One easy way of creating them even directly with litteral notation:
+> const arr = ['a0','a1',,'a3',undefined,,,'a7',,];
+> arr.len; // 9
+>          // Last comma: trailing comma, optional, does not create extra.
+> arr; // Shows "empty slots"" (holes) !== undefined.
+> arr[11] = 'a11';
+> arr.len; // 12
+> arr; // More holes have been created.
+> arr[2] === undefined; // true: empty element indistinguishable
+>                       // from undefined if tested this way
+> arr[4] === undefined; // true
+> 2 in arr; // false: way of distinguish from undefined
+> 4 in arr; // true
+> arr[-2] = 'hidden';
+> arr.len; // 12, unchanged
+> arr; // Not seen, but...
+> -2 in arr; // true. Quite hidden: one has to remember it has
+>            // put something in that particular index.
+>            // The possitive ones are at least found in a
+>            // for loop (since arr.len is updated with them).
+> arr[-2]; // "hidden": it's there!
+> ```
+>
+> There are very valid uses of "sparse structures having an index for
+> accessing existing elements" when programming, but jsinfo says that you
+> should implement them in a different way than abusing the Array object
+> in this way. It suggest Object with arbitrary keys, but maybe a Map
+> collection could be a better candidate for the "sparse array" use
+> case.
+>
+> Main reason jsinfo gives against usage of sparse arrays is performance
+> (it claims that it avoids engine optimization).
+>
+> Other arguments against sparse arrays are that some Array methods will
+> behave differently with them. E.g. (I'm using here stuff from future
+> sections of jsinfo):
+>
+> - `arr.map()` considers empties vs `arr.filter()` skips them.
+> - `...` expands transforming empties to undefined.
+>
+> All this may lead to unexpected results.
+>
+> Maybe one could relax the prohibition to "use sparse arrays if you
+> really know what you are doing". And you will tend to avoid them while
+> YouDontKnowJavaScript(Yet). And even if you know JS, you should know
+> that MostOtherDevelopersDontKnowJavaScript(Yet), which leads to a
+> maintenance and collaboration problem with your code.
+>
+> Note concerning the performance argument: if it is true (I'm not sure
+> of it), my guess is that it should also apply against using mixed
+> arrays, i.e. arrays of non-uniform types. For example: mixing
+> different types of primitives (and maybe non primitives).
+> Note: arrays of all-non primitives (of any type) may be OK, since they
+> may be internally arrays of all-references.
+
 ## Performance
 
 Methods `push/pop` run fast, while `shift/unshift` are slow.
