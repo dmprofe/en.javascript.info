@@ -532,6 +532,10 @@ alert(lengths); // 5,7,6
 > - Or we saw for Objects, and also works for arrays: `Object.assign([], arr)`
 > - And we will see the spread operator later in the course: `[...arr]`
 
+> [!t] t: arr.map (in jsinfo LANG5.5) != Map (in jsinfo LANG5.7)
+>
+> - Both are doing a "map" (hence their name), but of different things.
+
 ### sort(fn)
 
 The call to [arr.sort()](mdn:js/Array/sort) sorts the array *in place*, changing its element order.
