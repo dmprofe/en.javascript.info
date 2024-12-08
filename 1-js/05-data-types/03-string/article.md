@@ -736,12 +736,14 @@ This method actually has two additional arguments specified in [the documentatio
 >   const collEs = new Intl.Collator('es');
 >   const collEsNum = new Intl.Collator('es', { numeric: true });
 >   const arr = ['Z', 'a', 2, 'z', 10, 'á', 1, 'a10b', 'a2b', 'a2', 'a2a',
->     'aa', 'ab', 'a11a'];
->   alert( arr.sort(collEs.compare)+'' );
->     // "1,10,2,a,á,a10b,a11a,a2,a2a,a2b,aa,ab,z,Z"
->   alert( arr.sort(collEsNum.compare)+'' );
->     // "1,2,10,a,á,a2,a2a,a2b,a10b,a11a,aa,ab,z,Z"
->   // Note: casting to string with +'' to avoid ... and need to unfold.
+>     'aa', 'ab', 'a11a', 'a1b', 'a1a', 'a1'];
+>   arr.sort(collEs.compare)+'';
+>     // "1,10,2,a,á,a1,a10b,a11a,a1a,a1b,a2,a2a,a2b,aa,ab,z,Z"
+>   arr.sort(collEsNum.compare)+'';
+>     // "1,2,10,a,á,a1,a1a,a1b,a2,a2a,a2b,a10b,a11a,aa,ab,z,Z"
+>
+>   // Note: casting to string with +'' to avoid ... in output and
+>   // the need to unfold.
 >   ```
 >
 > - Browser compatibility:
