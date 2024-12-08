@@ -728,6 +728,22 @@ This method actually has two additional arguments specified in [the documentatio
 >     // positive, good... but needed to **end** with numbers
 >   ```
 >
+> - Example of locale+numeric comparison, showing that the numbers
+>   inside a string are considered as a whole before advancing to the
+>   following character:
+>
+>   ```js
+>   const collEs = new Intl.Collator('es');
+>   const collEsNum = new Intl.Collator('es', { numeric: true });
+>   const arr = ['Z', 'a', 2, 'z', 10, 'á', 1, 'a10b', 'a2b', 'a2', 'a2a',
+>     'aa', 'ab', 'a11a'];
+>   alert( arr.sort(collEs.compare)+'' );
+>     // "1,10,2,a,á,a10b,a11a,a2,a2a,a2b,aa,ab,z,Z"
+>   alert( arr.sort(collEsNum.compare)+'' );
+>     // "1,2,10,a,á,a2,a2a,a2b,a10b,a11a,aa,ab,z,Z"
+>   // Note: casting to string with +'' to avoid ... and need to unfold.
+>   ```
+>
 > - Browser compatibility:
 >   - Intl related stuff may not have universal support. E.g.
 >     [`Intl.Collator` support](https://caniuse.com/mdn-javascript_builtins_intl_collator)
