@@ -2,7 +2,7 @@
 
 One of the fundamental differences of objects versus primitives is that objects are stored and copied "by reference", whereas primitive values: strings, numbers, booleans, etc -- are always copied "as a whole value".
 
-> ![t] t: We had to make a spoiler alert on this, since it is a pervasive aspect.
+> [!t] t: We had to make a spoiler alert on this, since it is a pervasive aspect.
 
 That's easy to understand if we look a bit under the hood of what happens when we copy a value.
 
@@ -134,7 +134,7 @@ But what if we need to duplicate an object?
 
 We can create a new object and replicate the structure of the existing one, by iterating over its properties and copying them on the primitive level.
 
-> ![t] t: As indicated later, we assume for now objects with only primitive properties.
+> [!t] t: As indicated later, we assume for now objects with only primitive properties.
 
 Like this:
 
@@ -263,7 +263,7 @@ To fix that and make `user` and `clone` truly separate objects, we should use a 
 
 ### structuredClone
 
-> ![t] t: ES2019 addition!
+> [!t] t: ES2019 addition!
 
 The call `structuredClone(object)` clones the `object` with all nested properties.
 
@@ -322,7 +322,7 @@ Function properties aren't supported.
 
 To handle such complex cases we may need to use a combination of cloning methods, write custom code or, to not reinvent the wheel, take an existing implementation, for instance [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) from the JavaScript library [lodash](https://lodash.com).
 
-> ![t] t: Deep equality check.
+> [!t] t: Deep equality check.
 >
 > The same that we've covered here a "deep cloning" (recursive cloning),
 > there are times where we may need a "deep equality check" (recursive

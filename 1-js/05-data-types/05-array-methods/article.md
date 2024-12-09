@@ -263,7 +263,7 @@ And this code is more elaborate about their positions in the target array:
 
 The result of the function (if it returns any) is thrown away and ignored.
 
-> [!t] t: arr.forEach is a functional alternative to make loops
+> 	[!t] t: arr.forEach is a functional alternative to make loops
 >
 > - Made in a single **expression**, makes what is normally done with
 >   for/while **statement**.

@@ -30,7 +30,7 @@ In the chapter <info:type-conversions> we've seen the rules for numeric, string 
 
 We can implement string and numeric conversion by ourselves, using special object methods.
 
-> ![t] t: Skip the rest of this guide if you are in a hurry.
+> [!t] t: Skip the rest of this guide if you are in a hurry.
 >
 > - Know that you are missing something here.
 > - It makes use of Symbols (the previous guide, in case you skipped it).

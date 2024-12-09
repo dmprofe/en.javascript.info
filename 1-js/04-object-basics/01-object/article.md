@@ -9,7 +9,7 @@ An object can be created with figure brackets `{…}` with an optional list of *
 
 We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
 
-> ![t] t: Objects are 1st class citizens. Their properties are dynamic.
+> [!t] t: Objects are 1st class citizens. Their properties are dynamic.
 >
 > These are key differences with Java:
 >
@@ -137,7 +137,7 @@ delete user["likes birds"];
 
 Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).
 
-> ![t] t: JS objects are sort of assotiative arrays
+> [!t] t: JS objects are sort of assotiative arrays
 >
 > The bracket notation shows this. Objects can be seen as arrays that instead
 > of having as index with a positive increasing integer, they have as indexes
@@ -195,7 +195,7 @@ alert( user.key ) // undefined
 
 ### Computed properties
 
-> ![t] t: ES6/ES2015 addition
+> [!t] t: ES6/ES2015 addition
 
 We can use square brackets in an object literal, when creating an object. That's called *computed properties*.
 
@@ -213,11 +213,11 @@ let bag = {
 alert( bag.apple ); // 5 if fruit="apple"
 ```
 
-> ![t] t: These square brackets there are not the definition of an array!
+> [!t] t: These square brackets there are not the definition of an array!
 
 The meaning of a computed property is simple: `[fruit]` means that the property name should be taken from `fruit`.
 
-> ![t] t: Computed means here computed *name*, not computed *value*
+> [!t] t: Computed means here computed *name*, not computed *value*
 
 So, if a visitor enters `"apple"`, `bag` will become `{apple: 5}`.
 
@@ -241,17 +241,17 @@ let bag = {
 };
 ```
 
-> ![t] t: Any expression is valid there
+> [!t] t: Any expression is valid there
 
 Square brackets are much more powerful than dot notation. They allow any property names and variables. But they are also more cumbersome to write.
 
 So most of the time, when property names are known and simple, the dot is used. And if we need something more complex, then we switch to square brackets.
 
-> ![t] t: We may not need them, but others may use them: need to know them.
+> [!t] t: We may not need them, but others may use them: need to know them.
 
 ## Property value shorthand
 
-> ![t] t: ES6/ES2015 addition
+> [!t] t: ES6/ES2015 addition
 
 In real code, we often use existing variables as values for property names.
 
@@ -400,7 +400,7 @@ In the code above, the property `obj.test` technically exists. So the `in` opera
 
 Situations like this happen very rarely, because `undefined` should not be explicitly assigned. We mostly use `null` for "unknown" or "empty" values. So the `in` operator is an exotic guest in the code.
 
-> ![t] t: Unless dealing with other's code not following these good practices
+> [!t] t: Unless dealing with other's code not following these good practices
 
 ## The "for..in" loop [#forin]
 
@@ -435,7 +435,7 @@ Note that all "for" constructs allow us to declare the looping variable inside t
 
 Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
 
-> ![t] t: For arrays, don't use "for..in", use "for..of" (or "normal for")
+> [!t] t: For arrays, don't use "for..in", use "for..of" (or "normal for")
 
 ### Ordered like an object
 
@@ -521,9 +521,9 @@ for (let code in codes) {
 
 Now it works as intended.
 
-> ![t] t: We may not want to rely much on this creation order to avoid surprises.
+> [!t] t: We may not want to rely much on this creation order to avoid surprises.
 
-> ![t] t: Object details in console/debugger sort properties alphabetically
+> [!t] t: Object details in console/debugger sort properties alphabetically
 >
 > Worth noting that in the console/debugger (FF and Chrome at least) when
 > showing an object:

@@ -4,9 +4,9 @@ Memory management in JavaScript is performed automatically and invisibly to us. 
 
 What happens when something is not needed any more? How does the JavaScript engine discover it and clean it up?
 
-> ![t] t: This is the JS garbage collector. Java and others have it, others don't (C/C++).
+> [!t] t: This is the JS garbage collector. Java and others have it, others don't (C/C++).
 
-> ![t] t: Skip to the summary if short of time.
+> [!t] t: Skip to the summary if short of time.
 
 ## Reachability
 

@@ -4,7 +4,7 @@ The regular `{...}` syntax allows us to create one object. But often we need to 
 
 That can be done using constructor functions and the `"new"` operator.
 
-> ![t] t: Factory functions
+> [!t] t: Factory functions
 >
 > - Before entering this (constructor functions and `new` operator), there
 >   is another way of generating objects from a function.
@@ -96,7 +96,7 @@ let user = {
 };
 ```
 
-> ![t] t: Yet another behaviour of `this` dependent on the way of calling a function.
+> [!t] t: Yet another behaviour of `this` dependent on the way of calling a function.
 >
 > - To be added to what we already learned about `this`.
 
@@ -104,11 +104,11 @@ Now if we want to create other users, we can call `new User("Ann")`, `new User("
 
 That's the main purpose of constructors -- to implement reusable object creation code.
 
-> ![t] t: This can also be achieved, as seen above, with factory functions.
+> [!t] t: This can also be achieved, as seen above, with factory functions.
 
 Let's note once again -- technically, any function (except arrow functions, as they don't have `this`) can be used as a constructor. It can be run with `new`, and it will execute the algorithm above. The "capital letter first" is a common agreement, to make it clear that a function is to be run with `new`.
 
-> ![t] t: Classes are not needed in JS.
+> [!t] t: Classes are not needed in JS.
 >
 > - Note that, contrary to Java, in JS we can define and use constructor
 >   functions to instantiate objects without having to create/define a class.
@@ -182,11 +182,11 @@ alert(john.name); // John
 
 This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
 
-> ![t] t: This function thus can be used as constructor or as factory.
+> [!t] t: This function thus can be used as constructor or as factory.
 
 Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
 
-> ![t] t: But many API's only provide factories (ideally, with non capital initial letter).
+> [!t] t: But many API's only provide factories (ideally, with non capital initial letter).
 
 ## Return from constructors
 
@@ -239,7 +239,7 @@ let user = new User();
 Omitting parentheses here is not considered a "good style", but the syntax is permitted by specification.
 ````
 
-> ![t] t: Only can omit them when no parameters are used. And even there, it's confusing.
+> [!t] t: Only can omit them when no parameters are used. And even there, it's confusing.
 
 ## Methods in constructor
 
@@ -272,11 +272,11 @@ john = {
 */
 ```
 
-> ![t] t: The "method shorthand" we saw for litteral notation cannot be used here.
+> [!t] t: The "method shorthand" we saw for litteral notation cannot be used here.
 
 To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
 
-> ![t] t: To create complex objects, but also simple ones.
+> [!t] t: To create complex objects, but also simple ones.
 
 ## Summary
 
@@ -285,7 +285,7 @@ To create complex objects, there's a more advanced syntax, [classes](info:classe
 
 We can use constructor functions to make multiple similar objects.
 
-> ![t] t: And we can also use factories for that matter.
+> [!t] t: And we can also use factories for that matter.
 
 JavaScript provides constructor functions for many built-in language objects: like `Date` for dates, `Set` for sets and others that we plan to study.
 

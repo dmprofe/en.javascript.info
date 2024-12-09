@@ -1,7 +1,7 @@
 
 # Symbol type
 
-> ![t] t: ES6/2015 addition
+> [!t] t: ES6/2015 addition
 
 By specification, only two primitive types may serve as object property keys:
 
@@ -14,7 +14,7 @@ Until now we've been using only strings.
 
 Now let's explore symbols, see what they can do for us.
 
-> ![t] t: Skip the rest of this guide if you are in a hurry.
+> [!t] t: Skip the rest of this guide if you are in a hurry.
 >
 > - We can consider it "advanced".
 > - There are some stuff in following guides that we will not understand. Let's
@@ -144,7 +144,7 @@ user.id = "Their id value"
 
 If we want to use a symbol in an object literal `{...}`, we need square brackets around it.
 
-> ![t] t: That is, to use a computed property.
+> [!t] t: That is, to use a computed property.
 
 Like this:
 
